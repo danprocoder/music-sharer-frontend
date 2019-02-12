@@ -10,6 +10,7 @@ import Signup from './components/Signup';
 import UserProfile from './components/UserProfile';
 import Upload from './components/Upload';
 import Explore from './components/Explore';
+import MusicPlayer from './components/MusicPlayer';
 import './css/App.css';
 import 'font-awesome/css/font-awesome.min.css';
 
@@ -47,6 +48,10 @@ class App extends Component {
                   <Route path="/upload" component={() => <Upload isLoggedIn={this.state.isLoggedIn} />} />
                   <Route path="/home" component={() => <Explore isLoggedIn={this.state.isLoggedIn} app={this} />} />
           </div>
+
+          {this.getCurrentlyPlaying() && this.state.isLoggedIn &&
+            <MusicPlayer app={this} />
+          }
         </div>
       </HashRouter>
     );

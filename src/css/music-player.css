@@ -1,0 +1,59 @@
+.musicPlayer {
+    position: fixed;
+    height: 50px;
+    padding: 10px 0;
+    box-shadow: 0 -1px 19px #00000017;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #ffffffba;
+}
+
+.musicPlayer .container {
+  position: relative;
+  padding-left: 100px;
+  padding-top: 5px;
+}
+
+.musicPlayer .container .image {
+    width: 90px;
+    height: 90px;
+    position: absolute;
+    left: 0;
+    top: -40px;
+}
+
+.musicPlayer .container .track_artist {
+  color: #cfcfcf;
+  font-size: 15px;
+}
+
+.musicPlayer .container .track_artist a {
+  color: #b4b4b4;
+}
+
+.musicPlayer .container .track_length {
+  color: #c00;
+  font-size: 14px;
+  margin-top: 3px;
+}
+
+.musicPlayer .container .controls {
+  line-height: 50px;
+}
+
+.musicPlayer .container .controls a {
+  margin-left: 30px;
+  color: #dadada;
+  transition: color 0.3s, transform 0.3s;
+  display: inline-block;
+}
+
+.musicPlayer .container .controls a:hover {
+  color: #777;
+  transform: scale(1.35, 1.35);
+}
+
+.musicPlayer .container .controls .fa {
+  vertical-align: middle;
+}

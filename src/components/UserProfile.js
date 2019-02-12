@@ -13,15 +13,16 @@ class UserProfile extends Component {
 
     this.state = {
       user: {
+        picUrl: 'http://www.rihannanow.com/wp-content/uploads/2018/12/FB_POSTHOL18_MML_TIGERTINI_RRF_074_2000X2000_300DPI-1000px.jpg',
         fullname: 'Rihanna',
         username: 'rihanna',
         locationStr: 'California, USA',
         bio: 'My name is Sandra Jones, I am blah blah blah, lorem ipsum dolor amet sit.'
       },
       songs: [
-        {banner: 'banner.png', artist: 'Children of Bodom', title: 'Halo of Blood', lengthStr: '04:28', views: '4508758489', key: 'Am', id: '12098987666554601'},
-        {banner: 'banner.png', artist: 'Rihanna', title: 'Umbrella', lengthStr: '04:23', views: '3003034', key: 'Bm', id: '12098987666554602'},
-        {banner: 'banner.png', artist: 'Rihanna', title: 'Unfaithful', lengthStr: '02:59', views: '3003034', key: 'Cm', id: '12098987666554603'},
+        {banner: 'https://i.pinimg.com/474x/39/96/3c/39963c6f565f73162bfedae02dbdf789--music-artists-rihanna.jpg', artist: 'Children of Bodom', title: 'Halo of Blood', lengthStr: '04:28', views: '4508758489', key: 'Am', id: '12098987666554601'},
+        {banner: 'https://i.pinimg.com/474x/39/96/3c/39963c6f565f73162bfedae02dbdf789--music-artists-rihanna.jpg', artist: 'Rihanna', title: 'Umbrella', lengthStr: '04:23', views: '3003034', key: 'Bm', id: '12098987666554602'},
+        {banner: 'https://i.pinimg.com/474x/39/96/3c/39963c6f565f73162bfedae02dbdf789--music-artists-rihanna.jpg', artist: 'Rihanna', title: 'Unfaithful', lengthStr: '02:59', views: '3003034', key: 'Cm', id: '12098987666554603'},
       ],
     };
 
@@ -30,12 +31,12 @@ class UserProfile extends Component {
 
   render() {
     return (
-      <div>
+      <div className="profileSection">
         
         <div className="container float-area">
 
           <div className="leftInfo left">
-            <Image src='user.jpg' />
+            <Image src={this.state.user.picUrl} />
             <div className="fullname">{this.state.user.fullname}</div>
             <div className="info">
               <div><i className="fa fa-user"></i> {this.state.user.username}</div>

@@ -1,0 +1,36 @@
+.container.float-area {
+  margin-top: 40px;
+}
+
+.leftInfo {
+  width: 200px;
+}
+
+.leftInfo .image {
+  width: 200px;
+  height: 200px;
+  display: block;
+}
+
+.leftInfo .fullname {
+  font-weight: bold;
+  font-size: 19px;
+  margin-top: 20px;
+}
+
+.leftInfo .info {
+  color: #b7b7b9;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.leftInfo .bio {
+  color: #68696f;
+  font-size: 15px;
+  margin-top: 20px;
+}
+
+.userContent {
+  width: 800px;
+  margin-left: 50px;
+}

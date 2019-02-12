@@ -1,0 +1,25 @@
+.beautiful-background {
+    color: #ffffff;
+    padding: 150px 0;
+}
+
+.beautiful-background .intro-text {
+  font-size: 42px;
+}
+
+.beautiful-background .btn {
+  margin-top: 17px;
+}
+
+.community-section {
+    padding: 60px 0;
+}
+
+.community-section .header {
+    font-size: 42px;
+    color: #000000;
+}
+
+.community-section .link {
+    color: #fb56de;
+}

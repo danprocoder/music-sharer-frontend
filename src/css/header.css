@@ -1,0 +1,80 @@
+.navbar {
+    background: #04091a;
+    height: 50px;
+    line-height: 50px;
+    padding: 10px 0;
+}
+
+.navbar .logo {
+    color: #fb56de;
+    font-weight: bold;
+    font-size: 24px;
+    font-family: 'Brush Script MT';
+}
+
+.navbar .logo-wrapper {
+    float: left;
+}
+
+.navbar .nav-menus {
+    float: right;
+}
+
+.navbar .nav-menus > a {
+    color: #adadad;
+    margin-left: 40px;
+    transition: color 0.3s;
+}
+
+.navbar .nav-menus > a:hover {
+    color: #ffffff;
+}
+
+.navbar .nav-menus > a.active {
+    color: yellow;
+}
+
+.navbar .nav-menus a.login-link {
+    border: 1px solid yellow;
+    color: yellow;
+    border-radius: 20px;
+    padding: 8px 15px;
+}
+
+.navbar .nav-menus .fa {
+  vertical-align: middle;
+}
+
+.searchBar_wrapper {
+  display: inline-block;
+  position: relative;
+}
+
+.searchBar_wrapper .searchBar {
+  border: none;
+  outline: none;
+  font-size: 15px;
+  margin-left: 20px;
+  color: #fff;
+  background: #232323;
+  height: 70px;
+  margin-top: -10px;
+  border: none;
+  box-sizing: border-box;
+  padding: 0 50px 0 20px;
+  transition: width 0.2s;
+  width: 150px;
+  cursor: pointer;
+}
+
+.searchBar_wrapper .fa-search {
+  position: absolute;
+  right: 20px;
+  top: 18px;
+  color: #8a8a8a;
+}
+
+.searchBar_wrapper .searchBar:focus {
+  width: 580px;
+  cursor: text;
+}

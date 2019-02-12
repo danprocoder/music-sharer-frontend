@@ -1,0 +1,8 @@
+.image {
+  display: inline-block;
+  background: #f4f4f4;
+}
+
+.image img {
+  display: none;
+}

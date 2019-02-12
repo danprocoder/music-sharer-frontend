@@ -1,0 +1,143 @@
+.top .header {
+  font-weight: bold;
+  font-size: 21px;
+}
+
+.top {
+  margin-top: 40px;
+}
+
+.top .buttons a {
+  margin-left: 20px;
+}
+
+.content {
+  margin-top: 20px;
+}
+
+.content .upload-first-time {
+  text-align: center;
+}
+
+.content .upload-first-time a {
+  text-align: center;
+  color: #b6b6b6;
+  font-size: 15px;
+}
+
+.content .upload-first-time a .fa {
+  font-size: 48px;
+}
+
+.content .upload-first-time a:hover {
+  color: pink;
+}
+
+.content .uploadedList {
+  height: 300px;
+  overflow-y: auto;
+  margin-top: 20px;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.modalContainer {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: none;
+}
+
+.modalContainer.show {
+  background: rgba(255, 255, 255, 0.397);
+  animation: fadeIn 0.2s forwards;
+  animation-iteration-count: 1;
+  display: block;
+}
+
+.modalContainer .modal {
+  width: 500px;
+  margin: 10% auto 0 auto;
+  background: #ffffff;
+  box-shadow: 0 6px 40px #dfdfdf;
+  border-radius: 3px;
+  opacity: 0;
+  animation: fadeIn 0.2s forwards;
+  animation-delay: 0.2s;
+  animation-iteration-count: 1;
+}
+
+.modalContainer .modal .header {
+  padding: 15px;
+  font-size: 21px;
+  font-weight: bold;
+}
+
+.modalContainer .modal .body {
+  padding: 15px;
+}
+
+.modalContainer .modal .label {
+  color: rgb(150, 150, 150);
+  font-size: 13px;
+}
+
+.modalContainer .modal .field input {
+  display: block;
+  padding: 5px 9px;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  border: 1px solid #aaaaaa;
+  border-radius: 3px;
+  color: #aaaaaa;
+  font-size: 21px;
+  margin-top: 5px;
+}
+
+.modalContainer .modal .footer {
+  padding: 15px;
+}
+
+.modalContainer .modal .field input:focus {
+  color: #000;
+}
+
+.btn_browse {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn_browse input[type=file] {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  opacity: 0;
+}
+
+.progressBar {
+  width: 70px;
+  height: 8px;
+}
+
+.listItem {
+  padding: 15px 5px;
+  border-bottom: 1px dotted #e8e8e8;
+}
+
+.listItem:hover {
+  background: #fbfbfb;
+}

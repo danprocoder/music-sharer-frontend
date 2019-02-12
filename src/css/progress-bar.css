@@ -1,0 +1,19 @@
+.progressBar,
+.progressBar .progress {
+  display: inline-block;
+}
+
+.progressBar {
+  border-radius: 30px;
+  background: #f0f0f0;
+  position: relative;
+}
+
+.progressBar .progress {
+  border-radius: 30px;
+  background: #0e9bff;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+}

@@ -1,0 +1,75 @@
+.songListItem {
+  margin-bottom: 30px;
+  padding-right: 50px;
+  position: relative;
+}
+
+.songListItem.hasBanner {
+  padding-left: 53px;
+}
+
+.songListItem .image {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.songListItem .artistName_wrapper {
+  color: #dfdfdf;
+  font-size: 14px;
+}
+
+.songListItem .artistName_wrapper a {
+  color: #999;
+}
+
+.songListItem .artistName:hover {
+  text-decoration: underline;
+}
+
+.songListItem .bottom {
+    margin-top: 5px;
+    font-size: 13px;
+}
+
+.songListItem .bottom .left {
+  color: #b7b7b9;
+}
+
+.songListItem .bottom span {
+  margin-right: 20px;
+}
+
+.songListItem .bottom .right a {
+  margin-left: 10px;
+}
+
+.songListItem.isPlaying .waveForm_wrapper .waveForm {
+  height: 40px;
+  overflow: hidden;
+  margin-top: 5px;
+}
+
+.songListItem .btn_play {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background: pink;
+  color: #fff;
+  border-radius: 50px;
+  text-align: center;
+  line-height: 30px;
+  position: absolute;
+  top: 3px;
+  right: 0;
+}
+
+.songListItem.isPlaying .btn_play {
+  top: 23px;
+}
+
+.songListItem.isPlaying .song-length {
+  color: #f00;
+}

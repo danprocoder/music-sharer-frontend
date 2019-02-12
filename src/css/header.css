@@ -56,14 +56,14 @@
   font-size: 15px;
   margin-left: 20px;
   color: #fff;
-  background: #232323;
+  background: #1a1a1a;
   height: 70px;
   margin-top: -10px;
   border: none;
   box-sizing: border-box;
   padding: 0 50px 0 20px;
   transition: width 0.2s;
-  width: 150px;
+  width: 230px;
   cursor: pointer;
 }
 
@@ -77,4 +77,5 @@
 .searchBar_wrapper .searchBar:focus {
   width: 580px;
   cursor: text;
+  background: #232323;
 }

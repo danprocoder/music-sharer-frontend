@@ -19,11 +19,13 @@ class UserProfile extends Component {
         bio: 'My name is Sandra Jones, I am blah blah blah, lorem ipsum dolor amet sit.'
       },
       songs: [
-        ['Disturbia', '03:48', '3003034', 'Bm'],
-        ['Umbrella', '04:23', '3003034', 'Bm'],
-        ['Unfaithful', '02:59', '3003034', 'Cm'],
+        {banner: 'banner.png', artist: 'Children of Bodom', title: 'Halo of Blood', lengthStr: '04:28', views: '4508758489', key: 'Am', id: '12098987666554601'},
+        {banner: 'banner.png', artist: 'Rihanna', title: 'Umbrella', lengthStr: '04:23', views: '3003034', key: 'Bm', id: '12098987666554602'},
+        {banner: 'banner.png', artist: 'Rihanna', title: 'Unfaithful', lengthStr: '02:59', views: '3003034', key: 'Cm', id: '12098987666554603'},
       ],
     };
+
+    this.app = props.app;
   }
 
   render() {
@@ -47,7 +49,7 @@ class UserProfile extends Component {
 
           <div className="left userContent">
           {this.state.songs.map((song, index) =>
-            <SongListItem key={index} trackKey={song[3]} songTitle={song[0]} lengthStr={song[1]} totalViews={song[2]} />
+            <SongListItem key={index} app={this.app} song={song} hideBanner={true} hideArtist={true} />
           )}
           </div>
 

@@ -21,6 +21,8 @@ class SongListItem extends Component {
     }
 
     this.onPlayButtonPressed = this.onPlayButtonPressed.bind(this);
+
+    this.app = props.app;
   }
 
   formatNumber(num) {
@@ -39,39 +41,48 @@ class SongListItem extends Component {
     return `${initial}${mapping[numCommas]}`;
   }
 
+  isCurrentlyPlaying() {
+    const song = this.props.song;
+    const currentlyPlaying = this.app.getCurrentlyPlaying();
+
+    return currentlyPlaying && currentlyPlaying.id == song.id;
+  }
+
   onPlayButtonPressed(event) {
     event.preventDefault();
 
-    this.setState({isPlaying: true});
+    this.props.app.playSong(this.props.song);
   }
 
   render() {
-    const views = this.formatNumber(this.props.totalViews);
+    const song = this.props.song;
+    const views = this.formatNumber(song.views);
 
     let classes = 'songListItem';
-    if (this.props.banner) {
+    if (!this.props.hideBanner) {
       classes += ' hasBanner';
     }
-    if (this.state.isPlaying) {
+
+    if (this.isCurrentlyPlaying()) {
       classes += ' isPlaying';
     }
 
     return (
       <div className={classes}>
-        {this.props.banner && <Image src={this.props.banner} />}
+        {!this.props.hideBanner && <Image src={song.banner} />}
 
         <div>
-    <div>{this.props.songTitle}{this.props.artist && <span className="artistName_wrapper"> &mdash; <a href="#/profile" className="artistName">{this.props.artist}</a></span>}</div>
+    <div>{song.title}{!this.props.hideArtist && <span className="artistName_wrapper"> &mdash; <a href="#/profile" className="artistName">{song.artist}</a></span>}</div>
           <div className="waveForm_wrapper">
-            {(this.state.isPlaying) ?
+            {this.isCurrentlyPlaying() ?
             <WaveForm data={this.state.waveForms} /> : null
             }
             <a href="#" onClick={this.onPlayButtonPressed} className="btn_play"><i className="fa fa-play"></i></a>
           </div>
           <div className="bottom float-area">
             <div className="left">
-              <span className="song-length">{this.state.isPlaying ? '00:00 / ' : null}{this.props.lengthStr}</span>
-              <span><i className="fa fa-key"></i> {this.props.trackKey}</span>
+              <span className="song-length">{this.isCurrentlyPlaying() ? '00:00 / ' : null}{song.lengthStr}</span>
+              <span><i className="fa fa-key"></i> {song.key}</span>
               <span className="num-views"><i className="fa fa-eye"></i> {this.formatViews(views)}</span>
             </div>
             <div className="right">

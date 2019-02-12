@@ -11,9 +11,9 @@ class Explore extends Component {
 
     this.state = {
       latest: [
-        ['Halo of Blood', '04:28', '4508758489', 'G#m', 'Children of Bodom'],
-        ['Umbrella', '04:23', '3003034', 'Bm', 'Rihanna'],
-        ['Unfaithful', '02:59', '3003034', 'Cm', 'Rihanna'],
+        {banner: 'https://i.pinimg.com/474x/39/96/3c/39963c6f565f73162bfedae02dbdf789--music-artists-rihanna.jpg', artist: 'Children of Bodom', title: 'Halo of Blood', lengthStr: '04:28', views: '4508758489', key: 'Am', id: '12098987666554601'},
+        {banner: 'https://i.pinimg.com/474x/39/96/3c/39963c6f565f73162bfedae02dbdf789--music-artists-rihanna.jpg', artist: 'Rihanna', title: 'Umbrella', lengthStr: '04:23', views: '3003034', key: 'Bm', id: '12098987666554602'},
+        {banner: 'https://i.pinimg.com/474x/39/96/3c/39963c6f565f73162bfedae02dbdf789--music-artists-rihanna.jpg', artist: 'Rihanna', title: 'Unfaithful', lengthStr: '02:59', views: '3003034', key: 'Cm', id: '12098987666554603'},
       ]
     }
   }
@@ -23,7 +23,10 @@ class Explore extends Component {
       <div>
         <div className="container">
           {this.state.latest.map((song, index) => 
-          <SongListItem key={index} banner="default-banner.png" songTitle={song[0]} lengthStr={song[1]} totalViews={song[2]} trackKey={song[3]} artist={song[4]} />
+          <SongListItem
+            key={index}
+            app={this.props.app}
+            song={song} />
           )}
         </div>
       </div>

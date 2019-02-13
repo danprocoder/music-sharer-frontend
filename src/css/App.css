@@ -54,3 +54,7 @@ a.btn {
 .float-area .right {
   float: right;
 }
+
+.pageContent {
+  padding-top: 40px;
+}

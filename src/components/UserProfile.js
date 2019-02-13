@@ -31,7 +31,7 @@ class UserProfile extends Component {
 
   render() {
     return (
-      <div className="profileSection">
+      <div className="profileSection pageContent">
         
         <div className="container float-area">
 

@@ -42,7 +42,7 @@ class Upload extends Component {
 
   render() {
     return (
-      <div>
+      <div className="pageContent">
         <div className="container">
 
           <div className="float-area top">

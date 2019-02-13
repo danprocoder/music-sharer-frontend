@@ -20,7 +20,7 @@ class Explore extends Component {
 
   render() {
     return (
-      <div>
+      <div className="pageContent">
         <div className="container">
           {this.state.latest.map((song, index) => 
           <SongListItem

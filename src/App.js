@@ -10,7 +10,7 @@ import Signup from './components/Signup';
 import UserProfile from './components/UserProfile';
 import Upload from './components/Upload';
 import Explore from './components/Explore';
-import MusicPlayer from './components/MusicPlayer';
+import MusicPlayerWidget from './components/MusicPlayer';
 import './css/App.css';
 import 'font-awesome/css/font-awesome.min.css';
 
@@ -22,12 +22,25 @@ class App extends Component {
       isLoggedIn: false,
       currentlyPlaying: null, // Data of song currently playing.
     };
+
+    this.audio = new Audio();
   }
 
   playSong(song) {
-    this.setState({
-      currentlyPlaying: song,
-    });
+    if (!this.state.currentlyPlaying || song.id !== this.state.currentlyPlaying.id) {
+      this.setState({
+        currentlyPlaying: song,
+      }, () => {
+        this.audio.src = song.url;
+        this.audio.play();
+      });
+    } else {
+      this.audio.play();
+    }
+  }
+
+  getAudio() {
+    return this.audio;
   }
 
   getCurrentlyPlaying() {
@@ -50,7 +63,7 @@ class App extends Component {
           </div>
 
           {this.getCurrentlyPlaying() && this.state.isLoggedIn &&
-            <MusicPlayer app={this} />
+            <MusicPlayerWidget app={this} />
           }
         </div>
       </HashRouter>

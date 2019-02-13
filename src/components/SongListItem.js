@@ -11,6 +11,7 @@ class SongListItem extends Component {
     this.state = {
       isPlaying: false,
       waveForms: [],
+      currentLengthStr: '00:00:00',
     }
     for (let i = 0; i < 300; i++) {
       const height = Math.ceil((Math.random() * 40) + 1);
@@ -23,6 +24,17 @@ class SongListItem extends Component {
     this.onPlayButtonPressed = this.onPlayButtonPressed.bind(this);
 
     this.app = props.app;
+
+    this.audio = this.app.getAudio();
+    this.audio.addEventListener('timeupdate', this.onAudioTimeUpdate.bind(this));
+  }
+
+  onAudioTimeUpdate() {
+    if (this.app.getCurrentlyPlaying().id == this.props.song.id) {
+      this.setState({
+        currentLengthStr: this.audio.currentTime,
+      });
+    }
   }
 
   formatNumber(num) {
@@ -81,7 +93,7 @@ class SongListItem extends Component {
           </div>
           <div className="bottom float-area">
             <div className="left">
-              <span className="song-length">{this.isCurrentlyPlaying() ? '00:00 / ' : null}{song.lengthStr}</span>
+              <span className="song-length">{this.isCurrentlyPlaying() ? `${this.state.currentLengthStr} / ` : null}{song.lengthStr}</span>
               <span><i className="fa fa-key"></i> {song.key}</span>
               <span className="num-views"><i className="fa fa-eye"></i> {this.formatViews(views)}</span>
             </div>

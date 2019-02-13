@@ -7,6 +7,17 @@ class MusicPlayer extends Component {
     super(props);
 
     this.app = props.app;
+    this.state = {
+      currentLengthStr: '00:00:00'
+    };
+    
+    const audio = this.app.getAudio();
+    audio.addEventListener('timeupdate', (() => {
+      const time = audio.currentTime;
+      this.setState({
+        currentLengthStr: time,
+      });
+    }).bind(this));
   }
 
   render() {
@@ -22,7 +33,7 @@ class MusicPlayer extends Component {
             <Image src={song.banner} className="left" />
             <div className="left">
               <div>{song.title}<span className="track_artist"> &ndash; <a href="#/profile">{song.artist}</a></span></div>
-              <div className="track_length">00:00 / {song.lengthStr}</div>
+              <div className="track_length">{this.state.currentLengthStr} / {song.lengthStr}</div>
             </div>
 
             <div className="right controls">

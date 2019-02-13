@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Image from './Image';
-import helper from '../helpers/functions.js';
+import PlayControlButton from './PlayControlButton';
+import helper from '../helpers/functions';
 import '../css/music-player.css';
 
 class MusicPlayer extends Component {
@@ -9,7 +10,8 @@ class MusicPlayer extends Component {
 
     this.app = props.app;
     this.state = {
-      currentLengthStr: '00:00:00'
+      currentLengthStr: '00:00:00',
+      audioState: null,
     };
     
     const audio = this.app.getAudio();
@@ -18,6 +20,30 @@ class MusicPlayer extends Component {
         currentLengthStr: helper.time.formatTime(audio.currentTime),
       });
     }).bind(this));
+    audio.addEventListener('play', this.onAudioPlaying.bind(this));
+    audio.addEventListener('pause', this.onAudioPaused.bind(this));
+  }
+
+  onAudioPlaying() {
+    this.setState({
+      audioState: 'playing',
+    });
+  }
+
+  onAudioPaused() {
+    this.setState({
+      audioState: 'paused',
+    });
+  }
+
+  onPlayControlBtnClicked() {
+    const audio = this.app.getAudio();
+
+    if (this.state.audioState != 'playing') {
+      audio.play();
+    } else {
+      audio.pause();
+    }
   }
 
   render() {
@@ -38,7 +64,7 @@ class MusicPlayer extends Component {
 
             <div className="right controls">
               <a href="#"><i className="fa fa-step-backward"></i></a>
-              <a href="#"><i className="fa fa-pause"></i></a>
+              <PlayControlButton isPlaying={this.state.audioState == 'playing'} onClick={this.onPlayControlBtnClicked.bind(this)} />
               <a href="#"><i className="fa fa-step-forward"></i></a>
             </div>
           </div>

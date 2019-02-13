@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import WaveForm from './WaveForm';
 import Image from './Image';
+import PlayControlButton from './PlayControlButton';
 import '../css/song-list-item.css';
 import helper from '../helpers/functions.js';
 
@@ -9,11 +10,20 @@ class SongListItem extends Component {
   constructor(props) {
     super(props);
 
+    this.app = props.app;
+
+    this.audio = this.app.getAudio();
+    this.audio.addEventListener('timeupdate', this.onAudioTimeUpdate.bind(this));
+    this.audio.addEventListener('play', this.onAudioPlayed.bind(this));
+    this.audio.addEventListener('pause', this.onAudioPaused.bind(this));
+
     this.state = {
-      isPlaying: false,
+      audioState: null,
       waveForms: [],
       currentLengthStr: '00:00:00',
-    }
+    };
+
+    // Generate waveform data.
     for (let i = 0; i < 300; i++) {
       const height = Math.ceil((Math.random() * 40) + 1);
       this.state.waveForms.push([
@@ -21,13 +31,22 @@ class SongListItem extends Component {
         (40/2) - (height/2) // y-coordinate (margin-bottom)
       ]);
     }
+  }
 
-    this.onPlayButtonPressed = this.onPlayButtonPressed.bind(this);
+  onAudioPlayed() {
+    if (this.isCurrentlyPlaying()) {
+      this.setState({
+        audioState: 'playing',
+      });
+    }
+  }
 
-    this.app = props.app;
-
-    this.audio = this.app.getAudio();
-    this.audio.addEventListener('timeupdate', this.onAudioTimeUpdate.bind(this));
+  onAudioPaused() {
+    if (this.isCurrentlyPlaying()) {
+      this.setState({
+        audioState: 'paused',
+      });
+    }
   }
 
   onAudioTimeUpdate() {
@@ -62,9 +81,15 @@ class SongListItem extends Component {
   }
 
   onPlayButtonPressed(event) {
-    event.preventDefault();
-
-    this.props.app.playSong(this.props.song);
+    if (this.isCurrentlyPlaying()) {
+      if (this.state.audioState == 'playing') {
+        this.audio.pause();
+      } else {
+        this.audio.play();
+      }
+    } else {
+      this.props.app.playSong(this.props.song);
+    }
   }
 
   render() {
@@ -76,7 +101,7 @@ class SongListItem extends Component {
       classes += ' hasBanner';
     }
 
-    if (this.isCurrentlyPlaying()) {
+    if (this.state.audioState == 'playing') {
       classes += ' isPlaying';
     }
 
@@ -85,16 +110,16 @@ class SongListItem extends Component {
         {!this.props.hideBanner && <Image src={song.banner} />}
 
         <div>
-    <div>{song.title}{!this.props.hideArtist && <span className="artistName_wrapper"> &mdash; <a href="#/profile" className="artistName">{song.artist}</a></span>}</div>
+          <div>{song.title}{!this.props.hideArtist && <span className="artistName_wrapper"> &mdash; <a href="#/profile" className="artistName">{song.artist}</a></span>}</div>
           <div className="waveForm_wrapper">
-            {this.isCurrentlyPlaying() ?
+            {this.state.audioState == 'playing' ?
             <WaveForm data={this.state.waveForms} /> : null
             }
-            <a href="#" onClick={this.onPlayButtonPressed} className="btn_play"><i className="fa fa-play"></i></a>
+            <PlayControlButton className="btn_play" isPlaying={this.state.audioState == 'playing'} onClick={this.onPlayButtonPressed.bind(this)} />
           </div>
           <div className="bottom float-area">
             <div className="left">
-              <span className="song-length">{this.isCurrentlyPlaying() ? `${this.state.currentLengthStr} / ` : null}{song.lengthStr}</span>
+              <span className="song-length">{this.state.audioState == 'playing' ? `${this.state.currentLengthStr} / ` : null}{song.lengthStr}</span>
               <span><i className="fa fa-key"></i> {song.key}</span>
               <span className="num-views"><i className="fa fa-eye"></i> {this.formatViews(views)}</span>
             </div>

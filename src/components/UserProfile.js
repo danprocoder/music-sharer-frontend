@@ -50,7 +50,12 @@ class UserProfile extends Component {
 
           <div className="left userContent">
           {this.state.songs.map((song, index) =>
-            <SongListItem key={index} app={this.app} song={song} hideBanner={true} hideArtist={true} />
+            <SongListItem
+              key={index}
+              app={this.app}
+              song={song}
+              hideBanner={true}
+              hideArtist={true} />
           )}
           </div>
 

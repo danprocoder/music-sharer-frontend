@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import WaveForm from './WaveForm';
 import Image from './Image';
 import '../css/song-list-item.css';
+import helper from '../helpers/functions.js';
 
 class SongListItem extends Component {
 
@@ -32,7 +33,7 @@ class SongListItem extends Component {
   onAudioTimeUpdate() {
     if (this.app.getCurrentlyPlaying().id == this.props.song.id) {
       this.setState({
-        currentLengthStr: this.audio.currentTime,
+        currentLengthStr: helper.time.formatTime(this.audio.currentTime),
       });
     }
   }

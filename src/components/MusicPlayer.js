@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Image from './Image';
+import helper from '../helpers/functions.js';
 import '../css/music-player.css';
 
 class MusicPlayer extends Component {
@@ -13,9 +14,8 @@ class MusicPlayer extends Component {
     
     const audio = this.app.getAudio();
     audio.addEventListener('timeupdate', (() => {
-      const time = audio.currentTime;
       this.setState({
-        currentLengthStr: time,
+        currentLengthStr: helper.time.formatTime(audio.currentTime),
       });
     }).bind(this));
   }

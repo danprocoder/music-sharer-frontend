@@ -31,12 +31,12 @@
 }
 
 .navbar .nav-menus > a.active {
-    color: yellow;
+    color: #78d02b;
 }
 
 .navbar .nav-menus a.login-link {
-    border: 1px solid yellow;
-    color: yellow;
+    border: 1px solid #78d02b;
+    color: #78d02b;
     border-radius: 20px;
     padding: 8px 15px;
 }

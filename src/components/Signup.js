@@ -24,7 +24,7 @@ class Signup extends React.Component {
 
   render() {
       return (
-        <div className="beautiful-background">
+        <div className="formSection beautiful-background">
           <div className="container">
             <div className="form-white-bg">
 
@@ -44,9 +44,9 @@ class Signup extends React.Component {
                       <div className="error"></div>
                     </div>
                   </div>
-                  <div className="m-top-10">
+                  <div className="m-top-20">
                     <div className="form-info">By clicking the &ldquo;Sign Up&rdquo; button, you have agreed to our terms &amp; conditions.</div>
-                    <input type="submit" value="Sign Up" class="btn" />
+                    <div className="m-top-10"><input type="submit" value="Sign Up" className="btn" /></div>
                   </div>
                 </form>
               </div>

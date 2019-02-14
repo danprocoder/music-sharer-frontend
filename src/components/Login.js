@@ -23,7 +23,7 @@ class Login extends React.Component {
 
   render() {
       return (
-        <div className="beautiful-background">
+        <div className="formSection beautiful-background">
           <div className="form-white-bg">
             <div class="inner">
               <div className="form-header">Login</div>
@@ -36,7 +36,7 @@ class Login extends React.Component {
                     <input type="password" name="password" placeholder="Your password" />
                   </div>
                 </div>
-                <div className="m-top">
+                <div className="m-top-20">
                   <input type="submit" value="Log In" class="btn" />
                 </div>
               </form>

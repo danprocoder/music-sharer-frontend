@@ -46,10 +46,11 @@
   margin-left: 10px;
 }
 
-.songListItem.isPlaying .waveForm_wrapper .waveForm {
+.songListItem.isLoaded .waveForm_wrapper .waveForm {
   height: 40px;
   overflow: hidden;
   margin-top: 5px;
+  white-space: nowrap;
 }
 
 .songListItem .btn_play {
@@ -66,10 +67,10 @@
   right: 0;
 }
 
-.songListItem.isPlaying .btn_play {
+.songListItem.isLoaded .btn_play {
   top: 23px;
 }
 
-.songListItem.isPlaying .song-length {
+.songListItem.isLoaded .song-length {
   color: #f00;
 }

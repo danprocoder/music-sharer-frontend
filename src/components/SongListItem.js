@@ -16,11 +16,12 @@ class SongListItem extends Component {
     this.audio.addEventListener('timeupdate', this.onAudioTimeUpdate.bind(this));
     this.audio.addEventListener('play', this.onAudioPlayed.bind(this));
     this.audio.addEventListener('pause', this.onAudioPaused.bind(this));
+    this.audio.addEventListener('ended', this.onAudioEnded.bind(this));
 
     this.state = {
-      audioState: null,
+      audioState: this.isLoaded() && !this.audio.paused && !this.audio.ended && this.audio.currentTime > 0 ? 'playing' : null,
       waveForms: [],
-      currentLengthStr: '00:00:00',
+      currentLengthStr: this.isLoaded() ? helper.time.formatTime(this.audio.currentTime) : '00:00:00',
     };
 
     // Generate waveform data.
@@ -34,17 +35,21 @@ class SongListItem extends Component {
   }
 
   onAudioPlayed() {
-    if (this.isCurrentlyPlaying()) {
-      this.setState({
-        audioState: 'playing',
-      });
-    }
+    this.setAudioState('playing');
   }
 
   onAudioPaused() {
-    if (this.isCurrentlyPlaying()) {
+    this.setAudioState('paused');
+  }
+
+  onAudioEnded() {
+    this.setAudioState('ended');
+  }
+
+  setAudioState(state) {
+    if (this.isLoaded()) {
       this.setState({
-        audioState: 'paused',
+        audioState: state,
       });
     }
   }
@@ -52,6 +57,7 @@ class SongListItem extends Component {
   onAudioTimeUpdate() {
     if (this.app.getCurrentlyPlaying().id == this.props.song.id) {
       this.setState({
+        audioState: 'playing',
         currentLengthStr: helper.time.formatTime(this.audio.currentTime),
       });
     }
@@ -73,7 +79,7 @@ class SongListItem extends Component {
     return `${initial}${mapping[numCommas]}`;
   }
 
-  isCurrentlyPlaying() {
+  isLoaded() {
     const song = this.props.song;
     const currentlyPlaying = this.app.getCurrentlyPlaying();
 
@@ -81,7 +87,7 @@ class SongListItem extends Component {
   }
 
   onPlayButtonPressed(event) {
-    if (this.isCurrentlyPlaying()) {
+    if (this.isLoaded()) {
       if (this.state.audioState == 'playing') {
         this.audio.pause();
       } else {
@@ -101,8 +107,8 @@ class SongListItem extends Component {
       classes += ' hasBanner';
     }
 
-    if (this.state.audioState == 'playing') {
-      classes += ' isPlaying';
+    if (this.isLoaded()) {
+      classes += ' isLoaded';
     }
 
     return (
@@ -112,14 +118,14 @@ class SongListItem extends Component {
         <div>
           <div>{song.title}{!this.props.hideArtist && <span className="artistName_wrapper"> &mdash; <a href="#/profile" className="artistName">{song.artist}</a></span>}</div>
           <div className="waveForm_wrapper">
-            {this.state.audioState == 'playing' ?
+            {this.isLoaded() ?
             <WaveForm data={this.state.waveForms} /> : null
             }
             <PlayControlButton className="btn_play" isPlaying={this.state.audioState == 'playing'} onClick={this.onPlayButtonPressed.bind(this)} />
           </div>
           <div className="bottom float-area">
             <div className="left">
-              <span className="song-length">{this.state.audioState == 'playing' ? `${this.state.currentLengthStr} / ` : null}{song.lengthStr}</span>
+              <span className="song-length">{this.isLoaded() ? `${this.state.currentLengthStr} / ` : null}{song.lengthStr}</span>
               <span><i className="fa fa-key"></i> {song.key}</span>
               <span className="num-views"><i className="fa fa-eye"></i> {this.formatViews(views)}</span>
             </div>

@@ -17,22 +17,30 @@ class MusicPlayer extends Component {
     const audio = this.app.getAudio();
     audio.addEventListener('timeupdate', (() => {
       this.setState({
+        audioState: 'playing',
         currentLengthStr: helper.time.formatTime(audio.currentTime),
       });
     }).bind(this));
     audio.addEventListener('play', this.onAudioPlaying.bind(this));
     audio.addEventListener('pause', this.onAudioPaused.bind(this));
+    audio.addEventListener('ended', this.onAudioEnded.bind(this));
   }
 
   onAudioPlaying() {
-    this.setState({
-      audioState: 'playing',
-    });
+    this.setAudioState('playing');
   }
 
   onAudioPaused() {
+    this.setAudioState('paused');
+  }
+
+  onAudioEnded() {
+    this.setAudioState('ended');
+  }
+
+  setAudioState(state) {
     this.setState({
-      audioState: 'paused',
+      audioState: state,
     });
   }
 

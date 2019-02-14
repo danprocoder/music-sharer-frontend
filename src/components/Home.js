@@ -13,14 +13,16 @@ class Home extends Component {
 
   render() {
     return (
-      <div>
+      <div className="homePageContent">
 
         <div className="beautiful-background">
             <div className="container">
-                <div className="intro-text">Share your song with people worldwide...</div>
+              <div className="inner">
+                <div className="intro-text">Share your song with people worldwide</div>
                 <div>
                   <NavLink to="/signup" className="btn dark-shadow">Join Now</NavLink>
                 </div>
+              </div>
             </div>
         </div>
 
@@ -30,6 +32,7 @@ class Home extends Component {
             <div className="m-top-10">
                 <NavLink to="/signup" className="link">SIGN UP TO JOIN THE COMMUNITY &rarr;</NavLink>
             </div>
+            <i className="fa fa-comments-o"></i>
           </div>
         </div>
 

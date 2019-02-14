@@ -130,7 +130,10 @@ class SongListItem extends Component {
               <span className="num-views"><i className="fa fa-eye"></i> {this.formatViews(views)}</span>
             </div>
             <div className="right">
-              <a href="#"><i className="fa fa-thumbs-up"></i></a>
+              <span className="like">
+                <span className="counter">1,234</span>
+                <a href="#"><i className="fa fa-thumbs-up"></i></a>
+              </span>
             </div>
           </div>
         </div>

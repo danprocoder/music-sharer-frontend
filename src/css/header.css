@@ -56,7 +56,7 @@
   font-size: 15px;
   margin-left: 20px;
   color: #fff;
-  background: #1a1a1a;
+  background: #0e1527;
   height: 70px;
   margin-top: -10px;
   border: none;
@@ -77,5 +77,5 @@
 .searchBar_wrapper .searchBar:focus {
   width: 580px;
   cursor: text;
-  background: #232323;
+  background: #1c212f;
 }

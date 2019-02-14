@@ -38,25 +38,43 @@
   color: #b7b7b9;
 }
 
-.songListItem .bottom span {
+.songListItem .bottom .left span {
   margin-right: 20px;
 }
 
-.songListItem .bottom .right a {
-  margin-left: 10px;
+.songListItem .bottom .right .like a {
+  color: #57c6ff;
+  margin-left: 7px;
+  transition: transform 0.2s ease-in;
 }
 
-.songListItem.isPlaying .waveForm_wrapper .waveForm {
+.songListItem .bottom .right .like a .fa {
+  position: relative;
+  top: -2px;
+}
+
+.songListItem .bottom .right .like .counter {
+  color: #d4d4d4;
+}
+
+.songListItem .bottom .right .like a:hover {
+  display: inline-block;
+  transform: scale(1.24, 1.25);
+  color: #37b7f7;
+}
+
+.songListItem.isLoaded .waveForm_wrapper .waveForm {
   height: 40px;
   overflow: hidden;
   margin-top: 5px;
+  white-space: nowrap;
 }
 
 .songListItem .btn_play {
   display: inline-block;
   width: 30px;
   height: 30px;
-  background: pink;
+  background: #dd5185;
   color: #fff;
   border-radius: 50px;
   text-align: center;
@@ -66,10 +84,10 @@
   right: 0;
 }
 
-.songListItem.isPlaying .btn_play {
+.songListItem.isLoaded .btn_play {
   top: 23px;
 }
 
-.songListItem.isPlaying .song-length {
+.songListItem.isLoaded .song-length {
   color: #f00;
 }

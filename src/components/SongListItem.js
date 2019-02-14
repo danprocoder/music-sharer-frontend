@@ -1,17 +1,30 @@
 import React, { Component } from 'react';
 import WaveForm from './WaveForm';
 import Image from './Image';
+import PlayControlButton from './PlayControlButton';
 import '../css/song-list-item.css';
+import helper from '../helpers/functions.js';
 
 class SongListItem extends Component {
 
   constructor(props) {
     super(props);
 
+    this.app = props.app;
+
+    this.audio = this.app.getAudio();
+    this.audio.addEventListener('timeupdate', this.onAudioTimeUpdate.bind(this));
+    this.audio.addEventListener('play', this.onAudioPlayed.bind(this));
+    this.audio.addEventListener('pause', this.onAudioPaused.bind(this));
+    this.audio.addEventListener('ended', this.onAudioEnded.bind(this));
+
     this.state = {
-      isPlaying: false,
+      audioState: this.isLoaded() && !this.audio.paused && !this.audio.ended && this.audio.currentTime > 0 ? 'playing' : null,
       waveForms: [],
-    }
+      currentLengthStr: this.isLoaded() ? helper.time.formatTime(this.audio.currentTime) : '00:00:00',
+    };
+
+    // Generate waveform data.
     for (let i = 0; i < 300; i++) {
       const height = Math.ceil((Math.random() * 40) + 1);
       this.state.waveForms.push([
@@ -19,10 +32,35 @@ class SongListItem extends Component {
         (40/2) - (height/2) // y-coordinate (margin-bottom)
       ]);
     }
+  }
 
-    this.onPlayButtonPressed = this.onPlayButtonPressed.bind(this);
+  onAudioPlayed() {
+    this.setAudioState('playing');
+  }
 
-    this.app = props.app;
+  onAudioPaused() {
+    this.setAudioState('paused');
+  }
+
+  onAudioEnded() {
+    this.setAudioState('ended');
+  }
+
+  setAudioState(state) {
+    if (this.isLoaded()) {
+      this.setState({
+        audioState: state,
+      });
+    }
+  }
+
+  onAudioTimeUpdate() {
+    if (this.app.getCurrentlyPlaying().id == this.props.song.id) {
+      this.setState({
+        audioState: 'playing',
+        currentLengthStr: helper.time.formatTime(this.audio.currentTime),
+      });
+    }
   }
 
   formatNumber(num) {
@@ -41,7 +79,7 @@ class SongListItem extends Component {
     return `${initial}${mapping[numCommas]}`;
   }
 
-  isCurrentlyPlaying() {
+  isLoaded() {
     const song = this.props.song;
     const currentlyPlaying = this.app.getCurrentlyPlaying();
 
@@ -49,9 +87,15 @@ class SongListItem extends Component {
   }
 
   onPlayButtonPressed(event) {
-    event.preventDefault();
-
-    this.props.app.playSong(this.props.song);
+    if (this.isLoaded()) {
+      if (this.state.audioState == 'playing') {
+        this.audio.pause();
+      } else {
+        this.audio.play();
+      }
+    } else {
+      this.props.app.playSong(this.props.song);
+    }
   }
 
   render() {
@@ -63,8 +107,8 @@ class SongListItem extends Component {
       classes += ' hasBanner';
     }
 
-    if (this.isCurrentlyPlaying()) {
-      classes += ' isPlaying';
+    if (this.isLoaded()) {
+      classes += ' isLoaded';
     }
 
     return (
@@ -72,21 +116,24 @@ class SongListItem extends Component {
         {!this.props.hideBanner && <Image src={song.banner} />}
 
         <div>
-    <div>{song.title}{!this.props.hideArtist && <span className="artistName_wrapper"> &mdash; <a href="#/profile" className="artistName">{song.artist}</a></span>}</div>
+          <div>{song.title}{!this.props.hideArtist && <span className="artistName_wrapper"> &mdash; <a href="#/profile" className="artistName">{song.artist}</a></span>}</div>
           <div className="waveForm_wrapper">
-            {this.isCurrentlyPlaying() ?
+            {this.isLoaded() ?
             <WaveForm data={this.state.waveForms} /> : null
             }
-            <a href="#" onClick={this.onPlayButtonPressed} className="btn_play"><i className="fa fa-play"></i></a>
+            <PlayControlButton className="btn_play" isPlaying={this.state.audioState == 'playing'} onClick={this.onPlayButtonPressed.bind(this)} />
           </div>
           <div className="bottom float-area">
             <div className="left">
-              <span className="song-length">{this.isCurrentlyPlaying() ? '00:00 / ' : null}{song.lengthStr}</span>
+              <span className="song-length">{this.isLoaded() ? `${this.state.currentLengthStr} / ` : null}{song.lengthStr}</span>
               <span><i className="fa fa-key"></i> {song.key}</span>
               <span className="num-views"><i className="fa fa-eye"></i> {this.formatViews(views)}</span>
             </div>
             <div className="right">
-              <a href="#"><i className="fa fa-thumbs-up"></i></a>
+              <span className="like">
+                <span className="counter">1,234</span>
+                <a href="#"><i className="fa fa-thumbs-up"></i></a>
+              </span>
             </div>
           </div>
         </div>

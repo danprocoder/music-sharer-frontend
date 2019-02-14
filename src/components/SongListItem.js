@@ -127,9 +127,11 @@ class SongListItem extends Component {
             <div className="left">
               <span className="song-length">{this.isLoaded() ? `${this.state.currentLengthStr} / ` : null}{song.lengthStr}</span>
               <span><i className="fa fa-key"></i> {song.key}</span>
-              <span className="num-views"><i className="fa fa-eye"></i> {this.formatViews(views)}</span>
             </div>
             <div className="right">
+              <span className="num-views">
+                <i className="fa fa-eye"></i> {this.formatViews(views)}
+              </span>
               <span className="like">
                 <span className="counter">1,234</span>
                 <a href="#"><i className="fa fa-thumbs-up"></i></a>

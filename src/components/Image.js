@@ -13,8 +13,13 @@ class Image extends Component {
   }
 
   render() {
+    let className = 'image';
+    if (this.props.className) {
+      className += ' '.concat(this.props.className);
+    }
+
     return (
-      <div className="image">
+      <div className={className}>
         <img src={this.props.src} alt={this.props.src} onLoad={this.onImageLoad} ref={(ref) => this.image = ref} />
       </div>
     );

@@ -45,6 +45,55 @@
   vertical-align: middle;
 }
 
+.navbar .dropDown {
+  position: relative;
+}
+
+.navbar .dropDown .dropDown_content {
+  position: absolute;
+  top: -10px;
+  right: 0;
+  background: #ffffff;
+  padding: 0 0 5px 0;
+  z-index: 9999999999999999999;
+  box-shadow: 0 6px 16px #efefef;
+  border-radius: 5px;
+  width: 200px;
+  line-height: 100%;
+  display: none;
+}
+
+.navbar .dropDown .dropDown_content a {
+  display: block;
+}
+
+.navbar .dropDown .dropDown_content .links {
+  margin-left: 7px;
+}
+
+.navbar .dropDown .dropDown_content .profile_section {
+  padding: 5px;
+  display: block;
+}
+
+.navbar .dropDown .dropDown_content .link_profile {
+  font-size: 14px;
+  font-weight: 700;
+  color: #292929;
+  margin-top: 2px;
+}
+
+.navbar .dropDown .dropDown_content .link_signout {
+    font-size: 13px;
+    color: rgb(212, 87, 87);
+    margin-top: 4px;
+}
+
+.navbar .dropDown .dropDown_content .image {
+    width: 40px;
+    height: 40px;
+}
+
 .searchBar_wrapper {
   display: inline-block;
   position: relative;

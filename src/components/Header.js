@@ -11,17 +11,26 @@ class Header extends React.Component {
     this.props.app.logout();
   }
 
+  onSearchClicked(event) {
+    event.preventDefault();
+
+    const btn = event.target;
+    if (!btn.parentNode.classList.contains('expanded')) {
+      btn.parentNode.classList.add('expanded');
+    }
+  }
+
   render() {
     return (
       <div className="navbar">
         <div className="container">
             <div className="logo-wrapper">
-                <NavLink to="/" className="logo">Social Media Platform</NavLink>
-                {this.props.isLoggedIn && <div className="searchBar_wrapper"><input type="text" placeholder="Search" className="searchBar" /><i className="fa fa-search"></i></div>}
+                <NavLink to="/" className="logo">Music Sharer</NavLink>
+                {this.props.isLoggedIn && <div className="searchBar_wrapper"><input type="text" placeholder="Search" className="searchBar" /><i className="fa fa-search" onClick={this.onSearchClicked}></i></div>}
             </div>
             {this.props.isLoggedIn ? (
               <div className="nav-menus">
-                <NavLink to="/upload"><i className="fa fa-cloud-upload"></i> Upload</NavLink>
+                <NavLink to="/upload" className="link_upload"><i className="fa fa-cloud-upload"></i> Upload</NavLink>
                 <NavLink to="/community">Community</NavLink>
                 <a href="#" className="dropDown">
                   <i className="fa fa-user-circle-o fa-2x"></i>

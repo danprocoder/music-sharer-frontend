@@ -1,5 +1,6 @@
 import React from 'react';
 import '../css/Intro-form.css';
+import API from '../helpers/api';
 
 class Signup extends React.Component {
   constructor(props) {
@@ -9,17 +10,41 @@ class Signup extends React.Component {
       window.location = '#/home';
     }
 
+    this.state = {
+      formValues: {
+        name: '',
+        email: '',
+        password: '',
+      },
+    };
+
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   onSubmit(event) {
     event.preventDefault();
 
-    this.props.app.setState({
-      isLoggedIn: true,
-    });
+    (new API('user/add'))
+      .success(((data) => {
+        this.props.app.authUser(data);
 
-    window.location = '#/home';
+        window.location = '#/home';
+      }).bind(this))
+      .error((err) => {
+        console.log(err);
+      })
+      .post(this.state.formValues);
+  }
+
+  handleChange(event) {
+    const { name, value } = event.target;
+
+    const formValues = this.state.formValues;
+    formValues[name] = value;
+
+    this.setState({
+      formValues,
+    });
   }
 
   render() {
@@ -28,7 +53,7 @@ class Signup extends React.Component {
           <div className="container">
             <div className="form-white-bg">
 
-              <div class="inner">
+              <div className="inner">
                 <div className="form-header">Sign Up for Free</div>
                 <form className="m-top-30" onSubmit={this.onSubmit}>
                   <div>
@@ -36,11 +61,15 @@ class Signup extends React.Component {
                   </div>
                   <div className="input-area m-top-10">
                     <div className="input-field-wrapper">
-                      <input type="text" placeholder="Your email address" />
+                      <input type="text" name="name" placeholder="Your name" value={this.state.formValues.name} onChange={this.handleChange.bind(this)} />
+                      <div className="error"></div>
+                    </div>
+                    <div className="input-field-wrapper">
+                      <input type="text" name="email" placeholder="Your email address" value={this.state.formValues.email} onChange={this.handleChange.bind(this)} />
                       <div className="error"></div>
                     </div>
                     <div className="input-field-wrapper last">
-                      <input type="password" placeholder="Your password here" />
+                      <input type="password" name="password" placeholder="Your password here" value={this.state.formValues.password} onChange={this.handleChange.bind(this)} />
                       <div className="error"></div>
                     </div>
                   </div>

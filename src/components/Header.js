@@ -5,6 +5,12 @@ import Image from './Image';
 
 class Header extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+    this.app = props.app;
+  }
+
   onLogoutClicked(event) {
     event.preventDefault();
 
@@ -20,35 +26,45 @@ class Header extends React.Component {
     }
   }
 
+  showUserDropdown(event) {
+    event.preventDefault();
+
+    event.currentTarget.parentNode.querySelector('.dropDown_content').style.display = 'block';
+  }
+
   render() {
+    const user = this.app.getUser();
+
     return (
       <div className="navbar">
         <div className="container">
             <div className="logo-wrapper">
                 <NavLink to="/" className="logo">Music Sharer</NavLink>
-                {this.props.isLoggedIn && <div className="searchBar_wrapper"><input type="text" placeholder="Search" className="searchBar" /><i className="fa fa-search" onClick={this.onSearchClicked}></i></div>}
+                {user && <div className="searchBar_wrapper"><input type="text" placeholder="Search" className="searchBar" /><i className="fa fa-search" onClick={this.onSearchClicked}></i></div>}
             </div>
-            {this.props.isLoggedIn ? (
+            {user ? (
               <div className="nav-menus">
-                <NavLink to="/upload" className="link_upload"><i className="fa fa-cloud-upload"></i> Upload</NavLink>
-                <NavLink to="/community">Community</NavLink>
-                <a href="#" className="dropDown">
-                  <i className="fa fa-user-circle-o fa-2x"></i>
-                  <span className="dropDown_content float-area">
-                    <span className="profile_section">
+                <NavLink to="/upload" className="nav-a link_upload"><i className="fa fa-cloud-upload"></i> Upload</NavLink>
+                <NavLink to="/community" className="nav-a">Community</NavLink>
+
+                <span className="dropDown">
+                  <a href="#" onClick={this.showUserDropdown} className="nav-a"><i className="fa fa-user-circle-o fa-2x"></i></a>
+                  <span className="dropDown_content">
+                    <span className="profile_section float-area">
                       <Image src="" className="left" />
                       <span className="left links">
-                        <a href="#/profile" className="link_profile">Username</a>
+                        <a href="#/profile" className="link_profile">{user.name}</a>
                         <a href="#" className="link_signout" onClick={this.onLogoutClicked.bind(this)}>Sign Out</a>
                       </span>
                     </span>
                   </span>
-                </a>
+                </span>
+
               </div>
             ) : (
               <div className="nav-menus">
-                <NavLink to="/community">Community</NavLink>
-                <NavLink to="/login" className="login-link">Log In</NavLink>
+                <NavLink to="/community" className="nav-a">Community</NavLink>
+                <NavLink to="/login" className="nav-a login-link">Log In</NavLink>
               </div>
             )}
           </div>

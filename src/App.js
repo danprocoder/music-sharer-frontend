@@ -31,7 +31,7 @@ class App extends Component {
       this.setState({
         currentlyPlaying: song,
       }, () => {
-        this.audio.src = song.url;
+        this.audio.src = `http://localhost:3103/stream/${encodeURIComponent(song.url)}`;
         this.audio.play();
       });
     } else {

@@ -11,6 +11,15 @@ class Uploader {
     this.index = index;
   }
 
+  setState(state) {
+    const a = this.component.state.uploaded;
+    console.log(a);
+    a[this.index][2] = state;
+    this.component.setState({
+      uploaded: a,
+    });
+  }
+
   upload() {
     const formData = new FormData();
     formData.append('title', this.title);
@@ -23,16 +32,15 @@ class Uploader {
         'Authorization-Token': authToken,
       })
       .success(((data) => {
-        const a = this.component.state.uploaded;
-        a[this.index][2] = 'finished';
-        this.component.setState({
-          uploaded: a,
-        });
+        this.setState('finished');
       }).bind(this))
       .error((err) => {
-        console.log(err);
+        this.setState('failed');
+        throw err;
       })
       .post(formData);
+
+    return this;
   }
 }
 
@@ -66,9 +74,14 @@ class Upload extends Component {
     const trackFile = document.querySelector('#uploadModal input[type=file]');
 
     const uploaded = this.state.uploaded;
-    uploaded.push([trackName.value, 0, 'uploading']);
-    (new Uploader(this, trackName.value, trackFile.files[0], uploaded.length - 1)).upload();
+    uploaded.push([
+      trackName.value, 
+      0,
+      'uploading',
+    ]);
     this.setState({ uploaded });
+
+    (new Uploader(this, trackName.value, trackFile.files[0], uploaded.length - 1)).upload();
 
     // Reset fields.
     trackName.value = '';
@@ -110,7 +123,11 @@ class Upload extends Component {
                   {song[2] == 'uploading' ? (
                   <ProgressBar key={index} percent={song[1]} />
                   ) : (
-                  <span><i className="fa fa-check"></i> Uploaded</span>
+                    song[2] == 'failed' ? (
+                      <a href="#" onClick={(e) => { e.preventDefault(); }}><i className="fa fa-refresh"></i> Retry</a>
+                    ) : (
+                      <span><i className="fa fa-check"></i> Uploaded</span>
+                    )
                   )}
                 </span>
               </div>

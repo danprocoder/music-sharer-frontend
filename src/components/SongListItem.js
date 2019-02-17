@@ -69,14 +69,18 @@ class SongListItem extends Component {
 
   formatViews(views) {
     const initial = /^(\d+),?/.exec(views)[1],
-          numCommas = /(,)/g.exec(views).length,
+          numCommas = (/(,)/g.exec(views) || []).length,
           mapping = {
             1: 'K',
             2: 'M',
             3: 'B',
             4: 'T',
           };
-    return `${initial}${mapping[numCommas]}`;
+    if (numCommas > 0) {
+      return `${initial}${mapping[numCommas]}`;
+    } else {
+      return views;
+    }
   }
 
   isLoaded() {
@@ -116,7 +120,7 @@ class SongListItem extends Component {
         {!this.props.hideBanner && <Image src={song.banner} />}
 
         <div>
-          <div>{song.title}{!this.props.hideArtist && <span className="artistName_wrapper"> &mdash; <a href="#/profile" className="artistName">{song.artist}</a></span>}</div>
+          <div>{song.title}{!this.props.hideArtist && <span className="artistName_wrapper"> &mdash; <a href={'#/profile/'+song.User.username} className="artistName">{song.User.name}</a></span>}</div>
           <div className="waveForm_wrapper">
             {this.isLoaded() ?
             <WaveForm data={this.state.waveForms} /> : null
@@ -133,7 +137,7 @@ class SongListItem extends Component {
                 <i className="fa fa-eye"></i> {this.formatViews(views)}
               </span>
               <span className="like">
-                <span className="counter">1,234</span>
+                <span className="counter">{song.likes}</span>
                 <a href="#"><i className="fa fa-thumbs-up"></i></a>
               </span>
             </div>

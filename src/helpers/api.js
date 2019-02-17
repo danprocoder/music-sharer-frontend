@@ -9,10 +9,10 @@ class API {
     };
   }
 
-  headers(headers) {
-    headers.forEach(((k, v) => {
-      this.headers[k] = v;
-    }).bind(this));
+  setHeaders(headers) {
+    for (const header in headers) {
+      this.headers[header] = headers[header];
+    }
 
     return this;
   }
@@ -38,10 +38,15 @@ class API {
   _fetch(method, body) {
     const { headers, endpoint } = this;
 
+    body = body instanceof FormData ? body : JSON.stringify(body);
+    if (body instanceof FormData) {
+      delete headers['Content-Type'];
+    }
+
     fetch(endpoint, {
       method,
       headers,
-      body: JSON.stringify(body),
+      body,
     })
       .then(res => res.json())
       .then((data) => {

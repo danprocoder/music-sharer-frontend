@@ -1,12 +1,46 @@
 import React, { Component } from 'react';
 import ProgressBar from './ProgressBar';
+import API from '../helpers/api';
 import '../css/upload.css';
+
+class Uploader {
+  constructor(component, title, file, index) {
+    this.component = component;
+    this.title = title;
+    this.file = file;
+    this.index = index;
+  }
+
+  upload() {
+    const formData = new FormData();
+    formData.append('title', this.title);
+    formData.append('track', this.file);
+
+    const authToken = this.component.app.getAuthToken();
+
+    (new API('track/upload'))
+      .setHeaders({
+        'Authorization-Token': authToken,
+      })
+      .success(((data) => {
+        const a = this.component.state.uploaded;
+        a[this.index][2] = 'finished';
+        this.component.setState({
+          uploaded: a,
+        });
+      }).bind(this))
+      .error((err) => {
+        console.log(err);
+      })
+      .post(formData);
+  }
+}
 
 class Upload extends Component {
   constructor(props) {
     super(props);
 
-    if (!props.isLoggedIn) {
+    if (!props.app.getUser()) {
       window.location = '#/';
     }
 
@@ -15,6 +49,8 @@ class Upload extends Component {
     };
 
     this.onUpload = this.onUpload.bind(this);
+
+    this.app = props.app;
   }
 
   onAddSong(event) {
@@ -26,12 +62,17 @@ class Upload extends Component {
   onUpload(event) {
     event.preventDefault();
 
-    const trackName = document.querySelector('#uploadModal input.title').value;
+    const trackName = document.querySelector('#uploadModal input.title');
+    const trackFile = document.querySelector('#uploadModal input[type=file]');
 
     const uploaded = this.state.uploaded;
-    uploaded.push([trackName, 22.88]);
-
+    uploaded.push([trackName.value, 0, 'uploading']);
+    (new Uploader(this, trackName.value, trackFile.files[0], uploaded.length - 1)).upload();
     this.setState({ uploaded });
+
+    // Reset fields.
+    trackName.value = '';
+    trackFile.value = '';
 
     document.getElementById('uploadModal').classList.remove('show');
   }
@@ -63,10 +104,14 @@ class Upload extends Component {
 
             <div className="uploadedList">
               {this.state.uploaded.map((song, index) => 
-              <div className="listItem float-area">
+              <div className="listItem float-area" key={index}>
                 <span className="left">{song[0]}</span>
                 <span className="right">
+                  {song[2] == 'uploading' ? (
                   <ProgressBar key={index} percent={song[1]} />
+                  ) : (
+                  <span><i className="fa fa-check"></i> Uploaded</span>
+                  )}
                 </span>
               </div>
               )}

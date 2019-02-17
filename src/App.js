@@ -19,7 +19,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      isLoggedIn: false,
+      user: null, // Data for the currently logged in user.
       currentlyPlaying: null, // Data of song currently playing.
     };
 
@@ -46,12 +46,23 @@ class App extends Component {
   getCurrentlyPlaying() {
     return this.state.currentlyPlaying;
   }
+
+  authUser(data) {
+    localStorage.setItem('auth-token', data.token);
+    this.setState({
+      user: data.user,
+    });
+  }
+
+  getUser() {
+    return this.state.user;
+  }
   
   render() {
     return (
       <HashRouter>
         <div>
-          <Header isLoggedIn={this.state.isLoggedIn} />
+          <Header app={this} />
 
           <div>
             <Route exact path="/" component={() => <Home isLoggedIn={this.state.isLoggedIn} app={this} />} />
@@ -59,7 +70,7 @@ class App extends Component {
             <Route path="/login"  component={() => <Login app={this} />} />
             <Route path="/profile" component={() => <UserProfile isLoggedIn={this.state.isLoggedIn} app={this} />} />
             <Route path="/upload" component={() => <Upload isLoggedIn={this.state.isLoggedIn} />} />
-            <Route path="/home" component={() => <Explore isLoggedIn={this.state.isLoggedIn} app={this} />} />
+            <Route path="/home" component={() => <Explore app={this} />} />
           </div>
 
           {this.getCurrentlyPlaying() && this.state.isLoggedIn &&

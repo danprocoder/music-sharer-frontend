@@ -19,7 +19,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      user: null, // Data for the currently logged in user.
+      user: {}, // Data for the currently logged in user.
       currentlyPlaying: null, // Data of song currently playing.
     };
 
@@ -54,6 +54,10 @@ class App extends Component {
     }, callback);
   }
 
+  getAuthToken() {
+    return localStorage.getItem('auth-token');
+  }
+
   getUser() {
     return this.state.user;
   }
@@ -69,7 +73,7 @@ class App extends Component {
             <Route path="/signup" component={() => <Signup app={this} />} />
             <Route path="/login"  component={() => <Login app={this} />} />
             <Route path="/profile" component={() => <UserProfile isLoggedIn={this.state.isLoggedIn} app={this} />} />
-            <Route path="/upload" component={() => <Upload isLoggedIn={this.state.isLoggedIn} />} />
+            <Route path="/upload" component={() => <Upload isLoggedIn={this.state.isLoggedIn} app={this} />} />
             <Route path="/home" component={() => <Explore app={this} />} />
           </div>
 

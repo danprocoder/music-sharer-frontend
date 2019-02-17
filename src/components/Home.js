@@ -6,7 +6,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
 
-    if (props.isLoggedIn) {
+    if (props.app.getUser()) {
       window.location = '#/home';
     }
   }

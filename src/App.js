@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
   Route,
-  HashRouter
+  HashRouter,
+  Switch
 } from "react-router-dom";
 import Header from './components/Header';
 import Home from './components/Home';
@@ -109,12 +110,14 @@ class App extends Component {
           <Header app={this} />
 
           <div>
-            <Route exact path="/" component={() => <Home isLoggedIn={this.state.isLoggedIn} app={this} />} />
-            <Route path="/signup" component={() => <Signup app={this} />} />
-            <Route path="/login"  component={() => <Login app={this} />} />
-            <Route path="/upload" component={() => <Upload isLoggedIn={this.state.isLoggedIn} app={this} />} />
-            <Route path="/home" component={() => <Explore app={this} />} />
-            <Route path="/:username?" render={(props) => <UserProfile {...props} app={this} />} />
+            <Switch>
+              <Route exact path="/" component={() => <Home isLoggedIn={this.state.isLoggedIn} app={this} />} />
+              <Route path="/signup" component={() => <Signup app={this} />} />
+              <Route path="/login"  component={() => <Login app={this} />} />
+              <Route path="/upload" component={() => <Upload isLoggedIn={this.state.isLoggedIn} app={this} />} />
+              <Route path="/home" component={() => <Explore app={this} />} />
+              <Route path="/:username?" render={(props) => <UserProfile {...props} app={this} />} />
+            </Switch>
           </div>
 
           {this.getCurrentlyPlaying() && this.getUser() &&

@@ -13,7 +13,6 @@ class Uploader {
 
   setState(state) {
     const a = this.component.state.uploaded;
-    console.log(a);
     a[this.index][2] = state;
     this.component.setState({
       uploaded: a,
@@ -36,7 +35,6 @@ class Uploader {
       }).bind(this))
       .error((err) => {
         this.setState('failed');
-        throw err;
       })
       .post(formData);
 

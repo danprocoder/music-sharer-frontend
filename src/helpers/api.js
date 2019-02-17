@@ -2,7 +2,7 @@ import config from '../config/config';
 
 class API {
   constructor(endpoint) {
-    this.endpoint = `${config.baseUrl}/api/${endpoint}`;
+    this.endpoint = `${config.baseUrl}/api/${endpoint.replace(/^\//, '')}`;
     this.method = 'GET';
     this.headers = {
       'Content-Type': 'application/json',
@@ -43,11 +43,14 @@ class API {
       delete headers['Content-Type'];
     }
 
-    fetch(endpoint, {
-      method,
-      headers,
-      body,
-    })
+    const fetchData = {
+      method, headers
+    };
+    if (method !== 'GET') {
+      fetchData.body = body;
+    }
+
+    fetch(endpoint, fetchData)
       .then(res => res.json())
       .then((data) => {
         if (data.status === 200) {

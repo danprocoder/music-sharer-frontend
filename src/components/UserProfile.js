@@ -10,11 +10,11 @@ class UserProfile extends Component {
 
     this.state = {
       user: {
-        picUrl: 'http://www.rihannanow.com/wp-content/uploads/2018/12/FB_POSTHOL18_MML_TIGERTINI_RRF_074_2000X2000_300DPI-1000px.jpg',
-        name: 'Rihanna',
-        username: 'rihanna',
-        locationStr: 'California, USA',
-        bio: 'My name is Sandra Jones, I am blah blah blah, lorem ipsum dolor amet sit.'
+        picUrl: null,
+        name: null,
+        username: null,
+        locationStr: null,
+        bio: null,
       },
       songs: [],
     };
@@ -55,13 +55,12 @@ class UserProfile extends Component {
 
         resolve();
       }).bind(this));
-    })
-      .then(() => {
-        // Get user tracks.
-        this.fetchUserTracks((songs => {
-          this.setState({ songs });
-        }).bind(this));
-      });
+    }).then(() => {
+      // Get user tracks.
+      this.fetchUserTracks((songs => {
+        this.setState({ songs });
+      }).bind(this));
+    });
   }
 
   render() {

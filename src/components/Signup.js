@@ -6,7 +6,8 @@ class Signup extends React.Component {
   constructor(props) {
     super(props);
 
-    if (props.app.state.isLoggedIn) {
+    // Redirect if user is already logged in.
+    if (props.app.getUser()) {
       window.location = '#/home';
     }
 
@@ -26,9 +27,9 @@ class Signup extends React.Component {
 
     (new API('user/add'))
       .success(((data) => {
-        this.props.app.authUser(data);
-
-        window.location = '#/home';
+        this.props.app.authUser(data, () => {
+          window.location = '#/home';
+        });
       }).bind(this))
       .error((err) => {
         console.log(err);

@@ -8,6 +8,10 @@ class UserProfile extends Component {
   constructor(props) {
     super(props);
 
+    if (!props.app.getUser()) {
+      window.location = '#/';
+    }
+    
     this.state = {
       user: {
         picUrl: null,

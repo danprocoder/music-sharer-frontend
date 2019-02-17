@@ -77,7 +77,7 @@ class App extends Component {
             <Route path="/home" component={() => <Explore app={this} />} />
           </div>
 
-          {this.getCurrentlyPlaying() && this.state.isLoggedIn &&
+          {this.getCurrentlyPlaying() && this.getUser() &&
             <MusicPlayerWidget app={this} />
           }
         </div>

@@ -62,13 +62,17 @@ class Upload extends Component {
   onUpload(event) {
     event.preventDefault();
 
-    const trackName = document.querySelector('#uploadModal input.title').value;
+    const trackName = document.querySelector('#uploadModal input.title');
     const trackFile = document.querySelector('#uploadModal input[type=file]');
 
     const uploaded = this.state.uploaded;
-    uploaded.push([trackName, 0, 'uploading']);
-    (new Uploader(this, trackName, trackFile.files[0], uploaded.length - 1)).upload();
+    uploaded.push([trackName.value, 0, 'uploading']);
+    (new Uploader(this, trackName.value, trackFile.files[0], uploaded.length - 1)).upload();
     this.setState({ uploaded });
+
+    // Reset fields.
+    trackName.value = '';
+    trackFile.value = '';
 
     document.getElementById('uploadModal').classList.remove('show');
   }

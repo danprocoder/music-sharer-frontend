@@ -112,9 +112,9 @@ class App extends Component {
             <Route exact path="/" component={() => <Home isLoggedIn={this.state.isLoggedIn} app={this} />} />
             <Route path="/signup" component={() => <Signup app={this} />} />
             <Route path="/login"  component={() => <Login app={this} />} />
-            <Route path="/profile" component={() => <UserProfile isLoggedIn={this.state.isLoggedIn} app={this} />} />
             <Route path="/upload" component={() => <Upload isLoggedIn={this.state.isLoggedIn} app={this} />} />
             <Route path="/home" component={() => <Explore app={this} />} />
+            <Route path="/:username?" render={(props) => <UserProfile {...props} app={this} />} />
           </div>
 
           {this.getCurrentlyPlaying() && this.getUser() &&

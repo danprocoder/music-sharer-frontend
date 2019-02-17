@@ -120,7 +120,7 @@ class SongListItem extends Component {
         {!this.props.hideBanner && <Image src={song.banner} />}
 
         <div>
-          <div>{song.title}{!this.props.hideArtist && <span className="artistName_wrapper"> &mdash; <a href={'#/profile/'+song.User.username} className="artistName">{song.User.name}</a></span>}</div>
+          <div>{song.title}{!this.props.hideArtist && <span className="artistName_wrapper"> &mdash; <a href={`#/${song.User.username}`} className="artistName">{song.User.name}</a></span>}</div>
           <div className="waveForm_wrapper">
             {this.isLoaded() ?
             <WaveForm data={this.state.waveForms} /> : null

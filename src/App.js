@@ -13,17 +13,46 @@ import Explore from './components/Explore';
 import MusicPlayerWidget from './components/MusicPlayer';
 import './css/App.css';
 import 'font-awesome/css/font-awesome.min.css';
+import API from './helpers/api';
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      user: {}, // Data for the currently logged in user.
+      user: null, // Data for the currently logged in user.
       currentlyPlaying: null, // Data of song currently playing.
+      canRender: false,
     };
 
     this.audio = new Audio();
+  }
+  
+  componentWillMount() {
+    const token = this.getAuthToken();
+    if (token) {
+      // Get user data from server using token.
+      (new API('user'))
+        .setHeaders({
+          'Authorization-Token': token,
+        })
+        .success((user) => {
+          this.setState({
+            user,
+            canRender: true,
+          });
+        })
+        .error((err) => {
+          this.setState({
+            canRender: true,
+          });
+        })
+        .get();
+    } else {
+      this.setState({
+        canRender: true,
+      });
+    }
   }
 
   playSong(song) {
@@ -58,11 +87,22 @@ class App extends Component {
     return localStorage.getItem('auth-token');
   }
 
+  logout() {
+    localStorage.removeItem('auth-token');
+    this.setState({
+      user: null,
+    });
+  }
+
   getUser() {
     return this.state.user;
   }
   
   render() {
+    if (!this.state.canRender) {
+      return <div>Loading...</div>;
+    }
+
     return (
       <HashRouter>
         <div>

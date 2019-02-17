@@ -66,7 +66,7 @@ class MusicPlayer extends Component {
           <div className="container float-area">
             <Image src={song.banner} className="left" />
             <div className="left">
-              <div>{song.title}<span className="track_artist"> &ndash; <a href="#/profile">{song.User.name}</a></span></div>
+              <div>{song.title}<span className="track_artist"> &ndash; <a href={`#/${song.User.username}`}>{song.User.name}</a></span></div>
               <div className="track_length">{this.state.currentLengthStr} / {song.lengthStr}</div>
             </div>
 

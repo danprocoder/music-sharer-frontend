@@ -1,32 +1,70 @@
 import React, { Component } from 'react';
 import Image from './Image';
 import SongListItem from './SongListItem';
+import API from '../helpers/api';
 import '../css/user-profile.css';
 
 class UserProfile extends Component {
   constructor(props) {
     super(props);
 
-    if (!props.isLoggedIn) {
+    if (!props.app.getUser()) {
       window.location = '#/';
     }
-
+    
     this.state = {
       user: {
-        picUrl: 'http://www.rihannanow.com/wp-content/uploads/2018/12/FB_POSTHOL18_MML_TIGERTINI_RRF_074_2000X2000_300DPI-1000px.jpg',
-        fullname: 'Rihanna',
-        username: 'rihanna',
-        locationStr: 'California, USA',
-        bio: 'My name is Sandra Jones, I am blah blah blah, lorem ipsum dolor amet sit.'
+        picUrl: null,
+        name: null,
+        username: null,
+        locationStr: null,
+        bio: null,
       },
-      songs: [
-        {banner: 'https://i.pinimg.com/474x/39/96/3c/39963c6f565f73162bfedae02dbdf789--music-artists-rihanna.jpg', artist: 'Children of Bodom', title: 'Halo of Blood', lengthStr: '04:28', views: '4508758489', key: 'Am', id: '12098987666554601'},
-        {banner: 'https://i.pinimg.com/474x/39/96/3c/39963c6f565f73162bfedae02dbdf789--music-artists-rihanna.jpg', artist: 'Rihanna', title: 'Umbrella', lengthStr: '04:23', views: '3003034', key: 'Bm', id: '12098987666554602'},
-        {banner: 'https://i.pinimg.com/474x/39/96/3c/39963c6f565f73162bfedae02dbdf789--music-artists-rihanna.jpg', artist: 'Rihanna', title: 'Unfaithful', lengthStr: '02:59', views: '3003034', key: 'Cm', id: '12098987666554603'},
-      ],
+      songs: [],
     };
 
     this.app = props.app;
+  }
+
+  fetchUserData(onFetched) {
+    const username = this.props.match.params.username;
+    let endpoint = 'user';
+    if (username) {
+      endpoint += `/${username}`;
+    }
+
+    (new API(endpoint))
+      .success(onFetched)
+      .error((err) => {
+        // Failed to load data.
+      })
+      .get();
+  }
+
+  fetchUserTracks(onFetched) {
+    (new API(`${this.state.user.username}/tracks`))
+      .success(onFetched)
+      .error(err => {
+        console.error(err);
+      })
+      .get();
+  }
+
+  componentWillMount() {
+    new Promise((resolve, reject) => {
+      // Fetch user profile data.
+      this.fetchUserData((user => {
+        this.setState({ user });
+        this.app.setState({ user });
+
+        resolve();
+      }).bind(this));
+    }).then(() => {
+      // Get user tracks.
+      this.fetchUserTracks((songs => {
+        this.setState({ songs });
+      }).bind(this));
+    });
   }
 
   render() {
@@ -37,9 +75,9 @@ class UserProfile extends Component {
 
           <div className="leftInfo left">
             <Image src={this.state.user.picUrl} />
-            <div className="fullname">{this.state.user.fullname}</div>
+            <div className="fullname">{this.state.user.name}</div>
             <div className="info">
-              <div><i className="fa fa-user"></i> {this.state.user.username}</div>
+              <div><i className="fa fa-link"></i> {`${window.location.protocol}//${window.location.host}/${this.state.user.username}`}</div>
               <div><i className="fa fa-map-marker"></i> {this.state.user.locationStr}</div>
             </div>
 

@@ -45,7 +45,11 @@ class API {
     })
       .then(res => res.json())
       .then((data) => {
-        this.onSuccess(data.data);
+        if (data.status === 200) {
+          this.onSuccess(data.data);
+        } else {
+          this.onError(data.message);
+        }
       })
       .catch(this.onError);
   }

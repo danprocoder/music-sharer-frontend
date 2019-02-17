@@ -1,24 +1,50 @@
 import React from 'react';
+import API from '../helpers/api';
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
 
-    if (props.app.state.isLoggedIn) {
+    // Redirect if user is logged in.
+    if (props.app.getUser()) {
       window.location = '#/home';
     }
 
     this.onSubmit = this.onSubmit.bind(this);
+    this.state = {
+      formValues: {
+        email: '',
+        password: '',
+      },
+    };
+
+    this.app = props.app;
   }
 
   onSubmit(event) {
     event.preventDefault();
 
-    this.props.app.setState({
-      isLoggedIn: true,
-    });
+    (new API('user/auth'))
+      .success(((data) => {
+        this.app.authUser(data, () => {
+          window.location = '#/home';
+        });
+      }).bind(this))
+      .error((err) => {
+        alert(err);
+      })
+      .post(this.state.formValues);
+  }
 
-    window.location = '#/home';
+  handleChange(event) {
+    const { name, value } = event.target;
+
+    const formValues = this.state.formValues;
+    formValues[name] = value;
+
+    this.setState({
+      formValues,
+    });
   }
 
   render() {
@@ -30,10 +56,10 @@ class Login extends React.Component {
               <form className="m-top-30" onSubmit={this.onSubmit}>
                 <div className="input-area">
                   <div className="input-field-wrapper">
-                    <input type="text" name="email" placeholder="Your email address" />
+                    <input type="text" name="email" placeholder="Your email address" onChange={this.handleChange.bind(this)} />
                   </div>
                   <div className="input-field-wrapper last">
-                    <input type="password" name="password" placeholder="Your password" />
+                    <input type="password" name="password" placeholder="Your password" onChange={this.handleChange.bind(this)} />
                   </div>
                 </div>
                 <div className="m-top-20">

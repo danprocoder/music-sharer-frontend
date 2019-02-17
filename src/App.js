@@ -47,11 +47,11 @@ class App extends Component {
     return this.state.currentlyPlaying;
   }
 
-  authUser(data) {
+  authUser(data, callback) {
     localStorage.setItem('auth-token', data.token);
     this.setState({
       user: data.user,
-    });
+    }, callback);
   }
 
   getUser() {

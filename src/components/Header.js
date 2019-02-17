@@ -26,6 +26,12 @@ class Header extends React.Component {
     }
   }
 
+  showUserDropdown(event) {
+    event.preventDefault();
+
+    event.currentTarget.parentNode.querySelector('.dropDown_content').style.display = 'block';
+  }
+
   render() {
     const user = this.app.getUser();
 
@@ -38,12 +44,13 @@ class Header extends React.Component {
             </div>
             {user ? (
               <div className="nav-menus">
-                <NavLink to="/upload" className="link_upload"><i className="fa fa-cloud-upload"></i> Upload</NavLink>
-                <NavLink to="/community">Community</NavLink>
-                <a href="#" className="dropDown">
-                  <i className="fa fa-user-circle-o fa-2x"></i>
-                  <span className="dropDown_content float-area">
-                    <span className="profile_section">
+                <NavLink to="/upload" className="nav-a link_upload"><i className="fa fa-cloud-upload"></i> Upload</NavLink>
+                <NavLink to="/community" className="nav-a">Community</NavLink>
+
+                <span className="dropDown">
+                  <a href="#" onClick={this.showUserDropdown} className="nav-a"><i className="fa fa-user-circle-o fa-2x"></i></a>
+                  <span className="dropDown_content">
+                    <span className="profile_section float-area">
                       <Image src="" className="left" />
                       <span className="left links">
                         <a href="#/profile" className="link_profile">{user.name}</a>
@@ -51,12 +58,13 @@ class Header extends React.Component {
                       </span>
                     </span>
                   </span>
-                </a>
+                </span>
+
               </div>
             ) : (
               <div className="nav-menus">
-                <NavLink to="/community">Community</NavLink>
-                <NavLink to="/login" className="login-link">Log In</NavLink>
+                <NavLink to="/community" className="nav-a">Community</NavLink>
+                <NavLink to="/login" className="nav-a login-link">Log In</NavLink>
               </div>
             )}
           </div>

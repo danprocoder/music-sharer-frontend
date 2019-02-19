@@ -53,7 +53,7 @@ class Header extends React.Component {
                     <span className="profile_section float-area">
                       <Image src="" className="left" />
                       <span className="left links">
-                        <a href="#/profile" className="link_profile">{user.name}</a>
+                        <a href={`#/${this.app.getUser().username}`} className="link_profile">{user.name}</a>
                         <a href="#" className="link_signout" onClick={this.onLogoutClicked.bind(this)}>Sign Out</a>
                       </span>
                     </span>

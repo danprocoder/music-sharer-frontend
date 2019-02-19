@@ -116,7 +116,7 @@ class App extends Component {
               <Route path="/login"  component={() => <Login app={this} />} />
               <Route path="/upload" component={() => <Upload isLoggedIn={this.state.isLoggedIn} app={this} />} />
               <Route path="/home" component={() => <Explore app={this} />} />
-              <Route path="/:username?" render={(props) => <UserProfile {...props} app={this} />} />
+              <Route path="/:username" render={(props) => <UserProfile {...props} app={this} />} />
             </Switch>
           </div>
 

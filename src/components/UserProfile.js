@@ -27,11 +27,7 @@ class UserProfile extends Component {
   }
 
   fetchUserData(onFetched) {
-    const username = this.props.match.params.username;
-    let endpoint = 'user';
-    if (username) {
-      endpoint += `/${username}`;
-    }
+    let endpoint = `user/${this.props.match.params.username}`;
 
     (new API(endpoint))
       .success(onFetched)
@@ -55,7 +51,10 @@ class UserProfile extends Component {
       // Fetch user profile data.
       this.fetchUserData((user => {
         this.setState({ user });
-        this.app.setState({ user });
+        
+        if (user.id == this.app.getUser().id) {
+          this.app.setState({ user });
+        }
 
         resolve();
       }).bind(this));

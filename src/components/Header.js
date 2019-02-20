@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import '../css/header.css';
 import Image from './Image';
+import config from '../config/config';
 
 class Header extends React.Component {
 
@@ -51,7 +52,7 @@ class Header extends React.Component {
                   <a href="#" onClick={this.showUserDropdown} className="nav-a"><i className="fa fa-user-circle-o fa-2x"></i></a>
                   <span className="dropDown_content">
                     <span className="profile_section float-area">
-                      <Image src="" className="left" />
+                      <Image src={`${config.apiEndpointHost}/user/img/${user.imgUrl}`} className="left" />
                       <span className="left links">
                         <a href={`#/${this.app.getUser().username}`} className="link_profile">{user.name}</a>
                         <a href="#" className="link_signout" onClick={this.onLogoutClicked.bind(this)}>Sign Out</a>

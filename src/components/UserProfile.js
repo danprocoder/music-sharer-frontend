@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import config from '../config/config';
 import Image from './Image';
 import SongListItem from './SongListItem';
 import API from '../helpers/api';
@@ -14,7 +15,7 @@ class UserProfile extends Component {
     
     this.state = {
       user: {
-        picUrl: null,
+        imgUrl: null,
         name: null,
         username: null,
         locationStr: null,
@@ -51,7 +52,7 @@ class UserProfile extends Component {
       // Fetch user profile data.
       this.fetchUserData((user => {
         this.setState({ user });
-        
+
         if (user.id == this.app.getUser().id) {
           this.app.setState({ user });
         }
@@ -73,7 +74,7 @@ class UserProfile extends Component {
         <div className="container float-area">
 
           <div className="leftInfo left">
-            <Image src={this.state.user.picUrl} />
+            <Image src={`${config.apiEndpointHost}/user/img/${this.state.user.imgUrl}`} />
             <div className="fullname">{this.state.user.name}</div>
             <div className="info">
               <div><i className="fa fa-link"></i> {`${window.location.protocol}//${window.location.host}/${this.state.user.username}`}</div>
@@ -81,7 +82,14 @@ class UserProfile extends Component {
             </div>
 
             <div className="bio">
-              {this.state.user.bio}
+              <div>{this.state.user.bio}</div>
+              {this.state.user.id === this.app.getUser().id && (
+                this.state.user.bio ? (
+                  <div><a href="#"><i className="fa fa-pencil"></i> Edit bio</a></div>
+                ) : (
+                  <div><a href="#"><i className="fa fa-pencil"></i> Write about you</a></div>
+                )
+              )}
             </div>
           </div>
 

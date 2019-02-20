@@ -47,11 +47,13 @@ class SongListItem extends Component {
   }
 
   setAudioState(state) {
-    if (this.isLoaded()) {
-      this.setState({
-        audioState: state,
-      });
+    if (!this.isLoaded()) {
+      state = null;
     }
+    
+    this.setState({
+      audioState: state,
+    });
   }
 
   onAudioTimeUpdate() {

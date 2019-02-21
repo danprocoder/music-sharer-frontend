@@ -10,12 +10,21 @@ class Header extends React.Component {
     super(props);
 
     this.app = props.app;
+    this.userPopup = null;
   }
 
   onLogoutClicked(event) {
     event.preventDefault();
 
     this.props.app.logout();
+  }
+
+  componentDidMount() {
+    document.addEventListener('click', ((event) => {
+      if (!event.target.isSameNode(this.userPopup) && !this.userPopup.contains(event.target)) {
+        this.userPopup.querySelector('.dropDown_content').style.display = 'none';
+      }
+    }).bind(this));
   }
 
   onSearchClicked(event) {
@@ -30,7 +39,7 @@ class Header extends React.Component {
   showUserDropdown(event) {
     event.preventDefault();
 
-    event.currentTarget.parentNode.querySelector('.dropDown_content').style.display = 'block';
+    this.userPopup.querySelector('.dropDown_content').style.display = 'block';
   }
 
   render() {
@@ -48,8 +57,8 @@ class Header extends React.Component {
                 <NavLink to="/upload" className="nav-a link_upload"><i className="fa fa-cloud-upload"></i> Upload</NavLink>
                 <NavLink to="/community" className="nav-a">Community</NavLink>
 
-                <span className="dropDown">
-                  <a href="#" onClick={this.showUserDropdown} className="nav-a"><i className="fa fa-user-circle-o fa-2x"></i></a>
+                <span className="dropDown" ref={(r) => this.userPopup = r}>
+                  <a href="#" onClick={this.showUserDropdown.bind(this)} className="nav-a"><i className="fa fa-user-circle-o fa-2x"></i></a>
                   <span className="dropDown_content">
                     <span className="profile_section float-area">
                       <Image src={`${config.apiEndpointHost}/user/img/${user.imgUrl}`} className="left" />

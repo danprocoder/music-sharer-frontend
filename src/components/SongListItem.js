@@ -4,6 +4,7 @@ import Image from './Image';
 import PlayControlButton from './PlayControlButton';
 import '../css/song-list-item.css';
 import helper from '../helpers/functions.js';
+import config from '../config/config';
 
 class SongListItem extends Component {
 
@@ -50,7 +51,7 @@ class SongListItem extends Component {
     if (!this.isLoaded()) {
       state = null;
     }
-    
+
     this.setState({
       audioState: state,
     });
@@ -119,7 +120,7 @@ class SongListItem extends Component {
 
     return (
       <div className={classes}>
-        {!this.props.hideBanner && <Image src={song.banner} />}
+        {!this.props.hideBanner && <Image src={`${config.apiEndpointHost}/user/img/${song.User.username}`} />}
 
         <div>
           <div>{song.title}{!this.props.hideArtist && <span className="artistName_wrapper"> &mdash; <a href={`#/${song.User.username}`} className="artistName">{song.User.name}</a></span>}</div>

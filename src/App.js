@@ -105,13 +105,18 @@ class App extends Component {
     if (!this.state.canRender) {
       return <div>Loading...</div>;
     }
+    const showMusicPlayer = this.getCurrentlyPlaying() && this.getUser();
+    let pageContainerClassName = 'pageContent_container';
+    if (showMusicPlayer) {
+      pageContainerClassName += ' hasMusicPlayer';
+    }
 
     return (
       <HashRouter>
         <div>
           <Header app={this} />
 
-          <div>
+          <div className={pageContainerClassName}>
             <Switch>
               <Route exact path="/" component={() => <Home isLoggedIn={this.state.isLoggedIn} app={this} />} />
               <Route path="/signup" component={() => <Signup app={this} />} />
@@ -122,7 +127,7 @@ class App extends Component {
             </Switch>
           </div>
 
-          {this.getCurrentlyPlaying() && this.getUser() &&
+          {showMusicPlayer &&
             <MusicPlayerWidget app={this} />
           }
         </div>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import config from '../config/config';
 import Image from './Image';
 import SongListItem from './SongListItem';
@@ -19,12 +20,15 @@ class UserProfile extends Component {
         name: null,
         username: null,
         locationStr: null,
-        bio: null,
+        about: null,
       },
       songs: [],
+      bioEditMode: false,
     };
 
     this.app = props.app;
+
+    this.userBioContainer = null;
   }
 
   fetchUserData(onFetched) {
@@ -67,7 +71,39 @@ class UserProfile extends Component {
     });
   }
 
+  startEditBio = (event) => {
+    event.preventDefault();
+
+    this.setState({
+      bioEditMode: true,
+    }, () => {
+      this.userBioContainer.focus();
+    });
+  };
+
+  checkBioKeyPress = (event) => {
+    if (event.charCode == 13) {
+      event.preventDefault();
+
+      this.saveUserBio();
+    }
+  };
+
+  saveUserBio = () => {
+    this.state.user.about = this.userBioContainer.innerHTML;
+
+    this.setState({
+      bioEditMode: false,
+      user: this.state.user,
+    });
+  };
+
   render() {
+    let bioClass = 'user-bio';
+    if (this.state.bioEditMode) {
+      bioClass += ' editMode';
+    }
+
     return (
       <div className="profileSection pageContent">
         
@@ -82,13 +118,21 @@ class UserProfile extends Component {
             </div>
 
             <div className="bio">
-              <div>{this.state.user.bio}</div>
-              {this.state.user.id === this.app.getUser().id && (
-                this.state.user.bio ? (
-                  <div><a href="#"><i className="fa fa-pencil"></i> Edit bio</a></div>
+              <div
+                className={bioClass}
+                contentEditable={this.state.bioEditMode}
+                onKeyPress={this.checkBioKeyPress.bind(this)}
+                onBlur={this.saveUserBio}
+                ref={(r) => this.userBioContainer = r}>{this.state.user.about}</div>
+
+              {(this.state.user.id === this.app.getUser().id && !this.state.bioEditMode) && (
+                <div className="editBioLink_wrapper">
+                {this.state.user.about ? (
+                  <a href="#" onClick={this.startEditBio}><i className="fa fa-pencil"></i> Edit bio</a>
                 ) : (
-                  <div><a href="#"><i className="fa fa-pencil"></i> Write about you</a></div>
-                )
+                  <a href="#" onClick={this.startEditBio}><i className="fa fa-pencil"></i> Write about you</a>
+                )}
+                </div>
               )}
             </div>
           </div>

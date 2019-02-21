@@ -34,3 +34,40 @@
   width: 700px;
   margin-left: 50px;
 }
+
+.leftInfo .bio .user-bio {
+  margin-bottom: 5px;
+}
+
+.leftInfo .bio .user-bio.editMode {
+  outline: none;
+  padding-bottom: 3px;
+  position: relative;
+  min-height: 21px;
+}
+
+@keyframes borderEffect {
+  0% {
+    width: 0;
+  }
+
+  100% {
+    width: 100%;
+  }
+}
+
+.leftInfo .bio .user-bio.editMode::after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  background: #86d2ff;
+  animation: borderEffect 0.15s forwards;
+}
+
+.editBioLink_wrapper a {
+  color: #8eb7cf;
+}

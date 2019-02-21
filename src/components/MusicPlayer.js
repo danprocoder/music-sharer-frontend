@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Image from './Image';
 import PlayControlButton from './PlayControlButton';
 import helper from '../helpers/functions';
+import config from '../config/config';
 import '../css/music-player.css';
 
 class MusicPlayer extends Component {
@@ -64,7 +65,7 @@ class MusicPlayer extends Component {
       <div className="musicPlayer">
         <div className="musicPlayer_small">
           <div className="container float-area">
-            <Image src={song.banner} className="left" />
+            <Image src={`${config.apiEndpointHost}/user/img/${song.User.username}`} className="left" />
             <div className="left">
               <div>{song.title}<span className="track_artist"> &ndash; <a href={`#/${song.User.username}`}>{song.User.name}</a></span></div>
               <div className="track_length">{this.state.currentLengthStr} / {song.lengthStr}</div>

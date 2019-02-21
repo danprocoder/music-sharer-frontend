@@ -10,6 +10,64 @@
   width: 200px;
   height: 200px;
   display: block;
+  position: relative;
+}
+
+.leftInfo .image .uploadImgBtn_wrapper {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 38px;
+  height: 38px;
+  z-index: 999999999999999;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 3px 17px rgba(0,0,0,0.10);
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.leftInfo .image .uploadImgBtn_wrapper a {
+  color: #000000;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99999999;
+}
+
+.leftInfo .image .uploadImgBtn_wrapper a:hover {
+  background: #ffffff;
+}
+
+.leftInfo .image .uploadImgBtn_wrapper .userProfileFileInput {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999999999;
+  opacity: 0;
+}
+
+.leftInfo .image .uploadingImgAnimation_wrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.leftInfo .image .uploadingImgAnimation_wrapper .fa {
+  font-size: 58px;
+  color: #555555;
 }
 
 .leftInfo .fullname {
@@ -26,11 +84,49 @@
 
 .leftInfo .bio {
   color: #68696f;
-  font-size: 15px;
+  font-size: 14px;
   margin-top: 20px;
 }
 
 .userContent {
   width: 700px;
   margin-left: 50px;
+}
+
+.leftInfo .bio .user-bio {
+  margin-bottom: 5px;
+}
+
+.leftInfo .bio .user-bio.editMode {
+  outline: none;
+  padding-bottom: 3px;
+  position: relative;
+  min-height: 21px;
+}
+
+@keyframes borderEffect {
+  0% {
+    width: 0;
+  }
+
+  100% {
+    width: 100%;
+  }
+}
+
+.leftInfo .bio .user-bio.editMode::after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 0;
+  bottom: 0;
+  right: 0;
+  height: 1px;
+  background: #86d2ff;
+  animation: borderEffect 0.15s forwards;
+}
+
+.editBioLink_wrapper a {
+  color: #8eb7cf;
+  font-size: 13px;
 }

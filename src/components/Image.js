@@ -21,6 +21,7 @@ class Image extends Component {
     return (
       <div className={className}>
         <img src={this.props.src} alt={this.props.src} onLoad={this.onImageLoad} ref={(ref) => this.image = ref} />
+        {this.props.children}
       </div>
     );
   }

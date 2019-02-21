@@ -57,3 +57,7 @@
 .musicPlayer .container .controls .fa {
   vertical-align: middle;
 }
+
+.pageContent_container.hasMusicPlayer {
+  padding-bottom: 90px;
+}

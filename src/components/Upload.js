@@ -113,24 +113,30 @@ class Upload extends Component {
               </a>
             </div>
 
-            <div className="uploadedList">
-              {this.state.uploaded.map((song, index) => 
-              <div className="listItem float-area" key={index}>
-                <span className="left">{song[0]}</span>
-                <span className="right">
-                  {song[2] == 'uploading' ? (
-                  <ProgressBar key={index} percent={song[1]} />
-                  ) : (
-                    song[2] == 'failed' ? (
-                      <a href="#" onClick={(e) => { e.preventDefault(); }}><i className="fa fa-refresh"></i> Retry</a>
+            {this.state.uploaded.length > 0 && /* Only show if at least 1 file has been uploaded. */
+            <div className="uploadedList_wrapper">
+              <div className="uploadedList_header">Tracks</div>
+
+              <div className="uploadedList">
+                {this.state.uploaded.map((song, index) => 
+                <div className="listItem float-area" key={index}>
+                  <span className="left">{song[0]}</span>
+                  <span className="right">
+                    {song[2] == 'uploading' ? (
+                    <ProgressBar key={index} percent={song[1]} />
                     ) : (
-                      <span><i className="fa fa-check"></i> Uploaded</span>
-                    )
-                  )}
-                </span>
+                      song[2] == 'failed' ? (
+                        <a href="#" onClick={(e) => { e.preventDefault(); }} class="status retry"><i className="fa fa-refresh"></i> Retry</a>
+                      ) : (
+                        <span className="status uploaded"><i className="fa fa-check"></i> Uploaded</span>
+                      )
+                    )}
+                  </span>
+                </div>
+                )}
               </div>
-              )}
             </div>
+            /* End of uploaded track div. */}
           </div>
 
         </div>
@@ -151,7 +157,7 @@ class Upload extends Component {
 
             <div className="footer float-area">
               <div className="left btn_browse">
-                <input type="file" className="trackFile" />
+                <input type="file" className="trackFile" accept="audio/*" />
                 <a href="#" className="btn">Browse Files</a>
               </div>
               <a href="#" className="btn right" onClick={this.onUpload}>Upload</a>

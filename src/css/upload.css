@@ -29,10 +29,22 @@
   color: pink;
 }
 
+.content .uploadedList_wrapper {
+  border: 1px solid #f0f0f0;
+  border-radius: 3px;
+  margin: 30px -10px 0 -10px;
+}
+
+.content .uploadedList_wrapper .uploadedList_header {
+  font-size: 16px;
+  color: #999;
+  font-weight: bold;
+  padding: 10px;
+}
+
 .content .uploadedList {
   height: 300px;
   overflow-y: auto;
-  margin-top: 20px;
 }
 
 @keyframes fadeIn {
@@ -130,10 +142,23 @@
 }
 
 .listItem {
-  padding: 15px 5px;
-  border-bottom: 1px dotted #e8e8e8;
+  padding: 15px 10px;
+  background: #f7f7f7;
+  margin-bottom: 1px;
+}
+
+.listItem .status {
+  font-size: 13px;
+}
+
+.listItem .status.uploaded {
+  color: #12a012;
+}
+
+.listItem .status.retry {
+  color: #fa4646;
 }
 
 .listItem:hover {
-  background: #fbfbfb;
+  background: #fff;
 }

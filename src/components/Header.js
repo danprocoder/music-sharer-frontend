@@ -10,7 +10,10 @@ class Header extends React.Component {
     super(props);
 
     this.app = props.app;
+
     this.userPopup = null;
+    this.header = null;
+    this.searchContainer = null;
   }
 
   onLogoutClicked(event) {
@@ -19,10 +22,24 @@ class Header extends React.Component {
     this.props.app.logout();
   }
 
+  clickedOutside(event, element) {
+    if (element) {
+      return !event.target.isSameNode(element) && !element.contains(event.target);
+    } else {
+      return true;
+    }
+  }
+
   componentDidMount() {
     document.addEventListener('click', ((event) => {
-      if (!event.target.isSameNode(this.userPopup) && !this.userPopup.contains(event.target)) {
+      // Close user popup on click outside
+      if (this.userPopup && this.clickedOutside(event, this.userPopup)) {
         this.userPopup.querySelector('.dropDown_content').style.display = 'none';
+      }
+
+      // Close search on click outside
+      if (this.searchContainer && this.clickedOutside(event, this.searchContainer)) {
+        this.searchContainer.classList.remove('expanded');
       }
     }).bind(this));
   }
@@ -30,9 +47,8 @@ class Header extends React.Component {
   onSearchClicked(event) {
     event.preventDefault();
 
-    const btn = event.target;
-    if (!btn.parentNode.classList.contains('expanded')) {
-      btn.parentNode.classList.add('expanded');
+    if (!this.searchContainer.classList.contains('expanded')) {
+      this.searchContainer.classList.add('expanded');
     }
   }
 
@@ -46,11 +62,16 @@ class Header extends React.Component {
     const user = this.app.getUser();
 
     return (
-      <div className="navbar">
+      <div className="navbar" ref={(r) => this.header = r}>
         <div className="container">
             <div className="logo-wrapper">
                 <NavLink to="/" className="logo">Music Sharer</NavLink>
-                {user && <div className="searchBar_wrapper"><input type="text" placeholder="Search" className="searchBar" /><i className="fa fa-search" onClick={this.onSearchClicked}></i></div>}
+                {user && (
+                  <div className="searchBar_wrapper" ref={(r) => this.searchContainer = r}>
+                    <input type="text" placeholder="Search" className="searchBar" />
+                    <i className="fa fa-search" onClick={this.onSearchClicked.bind(this)}></i>
+                  </div>
+                )}
             </div>
             {user ? (
               <div className="nav-menus">

@@ -24,6 +24,7 @@ class UserProfile extends Component {
       },
       songs: [],
       bioEditMode: false,
+      uploadingProfilePic: false,
     };
 
     this.app = props.app;
@@ -98,6 +99,14 @@ class UserProfile extends Component {
     });
   };
 
+  uploadProfile = (event) => {
+    const photo = event.target.files[0];
+    this.setState({
+      uploadingProfilePic: true,
+    });
+    console.log(photo);
+  }
+
   render() {
     let bioClass = 'user-bio';
     if (this.state.bioEditMode) {
@@ -110,7 +119,19 @@ class UserProfile extends Component {
         <div className="container float-area">
 
           <div className="leftInfo left">
-            <Image src={`${config.apiEndpointHost}/user/img/${this.state.user.imgUrl}`} />
+            <Image src={`${config.apiEndpointHost}/user/img/${this.state.user.imgUrl}`}>
+              {this.state.uploadingProfilePic ? (
+                <div className="uploadingImgAnimation_wrapper">
+                  <i className="fa fa-spinner fa-pulse"></i>
+                </div>
+              ) : (
+                <div className="uploadImgBtn_wrapper">
+                  <input type="file" className="userProfileFileInput" accept="image/*" onChange={this.uploadProfile} />
+                  <a href="#"><i className="fa fa-pencil"></i></a>
+                </div>
+              )}
+            </Image>
+
             <div className="fullname">{this.state.user.name}</div>
             <div className="info">
               <div><i className="fa fa-link"></i> {`${window.location.protocol}//${window.location.host}/${this.state.user.username}`}</div>

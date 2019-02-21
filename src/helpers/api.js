@@ -24,6 +24,10 @@ class API {
   post(body={}) {
     return this._fetch('POST', body);
   }
+  
+  patch(body={}) {
+    return this._fetch('PATCH', body);
+  }
 
   success(callback) {
     this.onSuccess = callback;

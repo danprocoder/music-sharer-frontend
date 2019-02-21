@@ -101,10 +101,29 @@ class UserProfile extends Component {
 
   uploadProfile = (event) => {
     const photo = event.target.files[0];
+
     this.setState({
       uploadingProfilePic: true,
     });
-    console.log(photo);
+
+    const formData = new FormData();
+    formData.append('photo', photo);
+    new API('user/photo')
+      .setHeaders({
+        'Authorization-Token': this.app.getAuthToken(),
+      }).success((data) => {
+        const user = this.state.user;
+        user.imgUrl = `${data.imgUrl}?a=${Math.random()}`;
+
+        this.setState({
+          uploadingProfilePic: false,
+          user,
+        });
+      }).error((error) => {
+        this.setState({
+          uploadingProfilePic: false,
+        });
+      }).patch(formData);
   }
 
   render() {

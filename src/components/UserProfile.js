@@ -73,7 +73,9 @@ class UserProfile extends Component {
   }
 
   startEditBio = (event) => {
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }
 
     this.setState({
       bioEditMode: true,
@@ -91,12 +93,26 @@ class UserProfile extends Component {
   };
 
   saveUserBio = () => {
-    this.state.user.about = this.userBioContainer.innerHTML;
+    const about = this.state.user.about = this.userBioContainer.innerText;
 
     this.setState({
       bioEditMode: false,
       user: this.state.user,
     });
+
+    new API('/user/bio')
+      .setHeaders({
+        'Authorization-Token': this.app.getAuthToken(),
+      })
+      .success((data) => {
+        
+      })
+      .error((error) => {
+        
+      })
+      .patch({
+        bio: about,
+      });
   };
 
   uploadProfile = (event) => {
@@ -126,6 +142,23 @@ class UserProfile extends Component {
       }).patch(formData);
   }
 
+  getEditPhotoBtn() {
+    if (this.state.user.id === this.app.getUser().id) {
+      return this.state.uploadingProfilePic ? (
+        <div className="uploadingImgAnimation_wrapper">
+          <i className="fa fa-spinner fa-pulse"></i>
+        </div>
+      ) : (
+        <div className="uploadImgBtn_wrapper">
+          <input type="file" className="userProfileFileInput" accept="image/*" onChange={this.uploadProfile} />
+          <a href="#"><i className="fa fa-pencil"></i></a>
+        </div>
+      );
+    } else {
+      return null;
+    } 
+  }
+
   render() {
     let bioClass = 'user-bio';
     if (this.state.bioEditMode) {
@@ -138,18 +171,7 @@ class UserProfile extends Component {
         <div className="container float-area">
 
           <div className="leftInfo left">
-            <Image src={`${config.apiEndpointHost}/user/img/${this.state.user.imgUrl}`}>
-              {this.state.uploadingProfilePic ? (
-                <div className="uploadingImgAnimation_wrapper">
-                  <i className="fa fa-spinner fa-pulse"></i>
-                </div>
-              ) : (
-                <div className="uploadImgBtn_wrapper">
-                  <input type="file" className="userProfileFileInput" accept="image/*" onChange={this.uploadProfile} />
-                  <a href="#"><i className="fa fa-pencil"></i></a>
-                </div>
-              )}
-            </Image>
+            <Image src={`${config.apiEndpointHost}/user/img/${this.state.user.imgUrl}`}>{this.getEditPhotoBtn()}</Image>
 
             <div className="fullname">{this.state.user.name}</div>
             <div className="info">
